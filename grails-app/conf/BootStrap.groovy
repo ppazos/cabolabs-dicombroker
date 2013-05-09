@@ -5,7 +5,6 @@ class BootStrap {
 
      def init = { servletContext ->
          
-		 /*
          // PACS
          AeRegistry pacs1 = new AeRegistry(
                                 "remoteAETitle":"DCM4CHEE",
@@ -15,12 +14,11 @@ class BootStrap {
                                 "remoteWADOPath":"wado", // http://192.168.118.16:8080/wado?requestType....
                                 "localAETitle":"QRSCUCHE",
                                 //"localIP":"192.168.118.166",
-                                "localIP":"192.168.1.101",
+                                "localIP":"10.0.2.15",
                                 "localPort":44445,
                                 "description":"PACS Virtual")
          
          if (!pacs1.save()) println "PACS: " + pacs1.errors
-         */
          
         /* este pacs ya no existe
          AeRegistry pacs2 = new AeRegistry(
@@ -36,7 +34,7 @@ class BootStrap {
 
          if (!pacs2.save()) println "PACS: " + pacs2.errors
          */
-         
+/*         
          AeRegistry pacs3 = new AeRegistry(
             "remoteAETitle":"DCM4CHEE",
             "remoteIP":"pacs.webweaving.org",
@@ -49,6 +47,7 @@ class BootStrap {
             "description":"PACS ZorgGemak2")
 
          if (!pacs3.save()) println "PACS: " + pacs3.errors
+*/
      }
      def destroy = {
      }
