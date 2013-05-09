@@ -3,66 +3,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <meta name="layout" content="main" />
     <title><g:message code="aei.studySearchResult.list.title" /></title>
-	<g:javascript library="prototype/prototype" />
-    <g:javascript>
-      Event.observe(window, 'load', function () {
-      
-        $$('a.wado_url').each( function(item) {
-        
-          //alert(item.href);
-        
-          item.observe('click', function(event) {
-          
-            if (item.hasClassName('SR'))
-            {
-              //alert('SR');
-              $('show_object_img').setStyle( {display: 'none'} );
-              $('snd_img_frm').setStyle( {display: 'none'} );
-              
-              $('show_object_iframe').src = item.href;
-              $('show_object_iframe').setStyle( {display: 'block'} );
-            }
-            else
-            {
-              //alert(item.classNames());
-              $('show_object_iframe').setStyle( {display: 'none'} );
-              
-              $('show_object_img').src = item.href;
-              $('show_object_img').setStyle( {display: 'block'} );
-    
-              $('snd_img_frm').setStyle( {display: 'block'} );
-              $('snd_img_frm')['wado-url'].value = item.href;
-    
-              //alert($('snd_img_frm')['wado-url'].value);
-            }
-          
-            //$('show_object').src = item.href;
-            //alert(item.href);
-             
-            return false;
-          });
-        });
-    
-        // No se puede enviar el form por ajax porque es cross domain...
-        // Mando por ajax a un proxy local
-	    Event.observe('snd_img_frm', 'submit', function(event) {
-    
-		    $('snd_img_frm').request({
-    
-		        // Siempre va a ser ok porque es mi server
-		        onSuccess: function(t)
-                {
-		           alert(t.responseText);
-		        },
-                onError: function(t)
-                {
-                   alert('error: ' + t.responseText);
-                }
-		    });
-		    Event.stop(event); // stop the form from submitting
-		});
-      });
-    </g:javascript>
+
+    <r:require modules="blockUI" />
+
     <style>
       #show_object_iframe {
         height: 400px;
