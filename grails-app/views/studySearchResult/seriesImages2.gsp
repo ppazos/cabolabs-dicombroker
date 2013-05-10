@@ -44,6 +44,33 @@
     </style>
   </head>
   <body>
+
+
+  <g:javascript>
+    $(function() {
+      $('a.wado_url').click( function(){
+        if ($(this).hasClass('SR'))
+        {
+          $('#show_object_img').hide();
+          $('#snd_img_frm').hide();
+
+          $('#show_object_iframe').attr('src', this.href);
+          $('#show_object_iframe').show();
+        }
+        else
+        {
+           $('#show_object_iframe').hide();
+
+           $('#show_object_img').attr('src', this.href);
+           $('#show_object_img').show();
+
+           $('#snd_img_frm').show();
+           $('#snd_img_frm').find('[name=wado-url]').val(this.href);
+        }
+      });
+    });
+    </g:javascript>
+
     <div class="nav">
       <span class="menuButton"><g:link action="list" class="home">Home</g:link></span>
     </div>
