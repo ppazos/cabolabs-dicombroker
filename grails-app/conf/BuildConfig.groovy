@@ -39,5 +39,7 @@ grails.project.dependency.resolution = {
       runtime ":resources:1.1.6"
 
       build ":tomcat:$grailsVersion"
+
+      compile ":mail:1.0"
    }
 }

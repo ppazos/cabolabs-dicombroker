@@ -1,14 +1,31 @@
 
 import aei.AeRegistry
+import aei.EmailDestinationConfig
 
 class BootStrap {
 
      def init = { servletContext ->
-         
+
+         EmailDestinationConfig emailDest1 = new EmailDestinationConfig(
+                                                    "name"      : "Sebastian Sierra",
+                                                    "sended_to" : "sebastian@tarmacit.com",
+                                                    "subject"   : "test",
+                                                    "body"      : "test body"
+                                              )
+         if (!emailDest1.save()) println "EmailDest: " + emailDest1.errors
+
+         EmailDestinationConfig emailDest2 = new EmailDestinationConfig(
+                                                    "name"      : "Sebastian Sierra 2",
+                                                    "sended_to" : "sebastiansier@gmail.com",
+                                                    "subject"   : "test",
+                                                    "body"      : "test body"
+                                              )
+         if (!emailDest2.save()) println "EmailDest: " + emailDest2.errors
+
          // PACS
          AeRegistry pacs1 = new AeRegistry(
                                 "remoteAETitle":"DCM4CHEE",
-                                "remoteIP":"192.168.1.107",
+                                "remoteIP":"192.168.1.34", //192.168.1.105",
                                 "remotePort":11112,
                                 "remoteWADOPort":8080,
                                 "remoteWADOPath":"wado", // http://192.168.118.16:8080/wado?requestType....

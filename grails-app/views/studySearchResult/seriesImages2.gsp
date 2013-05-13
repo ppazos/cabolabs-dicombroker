@@ -35,11 +35,26 @@
       .objects_div {
         height: 110px;
         overflow: auto;
-		border-bottom: 1px solid #ddd;
+		    border-bottom: 1px solid #ddd;
       }
            
       #snd_img_frm {
-        display: none;
+        display: block; //none;
+      }
+
+      #snd_img_frm > #img_container {
+        width: 30%;
+        float:left;
+      }
+
+      #snd_img_frm > #destinations_container {
+        width:30%;
+        float:left;
+      }
+
+      #snd_img_frm > #destination_details {
+        width:30%;
+        float:left;
       }
     </style>
   </head>
@@ -59,15 +74,40 @@
         }
         else
         {
-           $('#show_object_iframe').hide();
+          $('#show_object_iframe').hide();
+          $('#show_object_img').attr('src', this.href);
+          $('#form_object_img').attr('src', this.href);
 
-           $('#show_object_img').attr('src', this.href);
-           $('#show_object_img').show();
-
-           $('#snd_img_frm').show();
-           $('#snd_img_frm').find('[name=wado-url]').val(this.href);
+          $('#show_send_frm').show();
+          $('#snd_img_frm').find('[name=wado-url]').val(this.href);
         }
       });
+
+      $('#show_send_frm').click( function() {
+        $.blockUI( {
+          message: $('#snd_img_frm'),
+          css: { 
+            left: ($(window).width() - 800) /2 + 'px', 
+            width: '800px' 
+          } 
+        });
+      });
+
+      $('.dest-link').click( function() {
+        var id = $(this).find('[name=dest-id]').val();
+        $.ajax({
+          url: "${createLink(controller: 'StudySearchResult', action: 'destDetails')}",
+          type: 'GET',
+          data: 'destId='+id,
+          success: function(data) {
+            $('#dest_name').val(data['name']);
+            $('#dest_email').val(data['sended_to']);
+            $('#dest_subject').val(data['subject']);
+            $('#dest_body').html('este es el email a envial');
+          }
+        });
+      });
+
     });
     </g:javascript>
 
@@ -231,20 +271,49 @@
         </div>
         
         <!-- Enviar la URL de la imagen a un server externo -->
-        <g:form id="snd_img_frm" url="[controller:'studySearchResult', action:'sendWadoUrl']" method="post">
+        <g:link url="javascript:void(0)" elementId="show_send_frm">Send </g:link>
+
+        <div id="snd_img_frm">
           <input type="hidden" name="wado-url" />
-          <input type="submit" value="Send WADO URL" />
-          
+
+          <div id="img_container">
+            <!-- Image to send -->
+            <img src="" id="form_object_img" height="200" width="auto"/>
+          </div>
+
+          <div id="destinations_container">
+            <!-- Destinations list -->
+            <ul>
+              <g:each in="${destinations}" status="i" var="destination">
+                <li class="dest-link">
+                  <input type="hidden" value="${destination.id}" name="dest-id" />
+                  <g:link url="javascript:void(0)">${destination.name}</g:link>
+                </li>
+              </g:each>
+            </ul> 
+          </div>
+
+          <div id="destination_details">
+            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" > 
+              <input id="dest_name" name="dest_name">
+              <input id="dest_email" name="dest_email">
+              <input id="dest_subject" name="dest_subject">
+              <textarea id="dest_body" name="dest_body"></textarea>
+
+              <g:actionSubmit value="Send WADO URL" />
+            </g:formRemote>
+          </div>
+
           <!-- Ir a otra aplicacion una vez que envia la wado url -->
           <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a>
-        </g:form>
+        </div>
+        <div style="clear:both">
 
         <!-- Para mostrar SRs -->
         <iframe src="" id="show_object_iframe"></iframe>
         
         <!-- Para mostrar imagenes -->
         <img src="" id="show_object_img" />
-        
       </div>
     </div>
   </body>

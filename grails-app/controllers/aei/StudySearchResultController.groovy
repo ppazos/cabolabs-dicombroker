@@ -6,6 +6,7 @@ package aei
 //import hce.core.composition.* // Composition y EventContext
 //import hce.HceService
 import aei.AeiService
+import grails.converters.*
 
 /**
  * @author Pablo Pazos Gutierrez (pablo.swp@gmail.com)
@@ -283,32 +284,45 @@ class StudySearchResultController {
         
         def selectedStudy = StudySearchResult.get( params.id )
         def selectedSerie = SeriesSearchResult.get( params.serieId )
+        def destinations = DestinationConfig.getAll()
 		
-		println "=== seriesImages2 ==="
-		println "=== selectedStudy: " + selectedStudy
-		println "=== selectedSerie: " + selectedSerie
-		println ""
+        println "=== seriesImages2 ==="
+        println "=== selectedStudy: " + selectedStudy
+        println "=== selectedSerie: " + selectedSerie
+        println ""
 		
         // imagenes y reportes
         def objects = []
         try
         {
-			objects = aeiService.sendDICOMQuery4( selectedStudy.source,
-                                                  selectedSerie.studyUID, // Se agrega para consulta en COMEPA, MACIEL y ClearCanvas Server andan sin este parametro.
-                                                  selectedSerie.serieUID )
+			    objects = aeiService.sendDICOMQuery4( selectedStudy.source,
+                                                selectedSerie.studyUID, // Se agrega para consulta en COMEPA, MACIEL y ClearCanvas Server andan sin este parametro.
+                                                selectedSerie.serieUID )
         }
         catch (Exception e)
         {
-            flash.message = "studySearchResult.error.pacsComm"
-			println "======AAAA====="
-			println e.getMessage()
-			println "======AAAA====="
+          flash.message = "studySearchResult.error.pacsComm"
+      		println "======AAAA====="
+    			println e.getMessage()
+		    	println "======AAAA====="
         }
         
         return [selectedStudy:  selectedStudy,
                 selectedSerie:  selectedSerie,
                 objects:        objects,
-                reg:            selectedStudy.source]
+                reg:            selectedStudy.source,
+                destinations:   destinations
+        ]
         
     } // seriesImages2
+
+    def destDetails() {
+      def dest = DestinationConfig.get( params.destId )
+      render dest as JSON
+    }
+
+    def notifierService
+    def sendEmail = {
+      notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+    }
 }
