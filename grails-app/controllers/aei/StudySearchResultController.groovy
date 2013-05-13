@@ -321,8 +321,26 @@ class StudySearchResultController {
       render dest as JSON
     }
 
-    def notifierService
-    def sendEmail = {
-      notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+    /* ========================================
+        Workaround to avoid error when calling 
+        the sendEmail() action twice from ajax
+    ========================================== */
+
+    // def notifierService
+    def mailService
+
+    def sendEmail() {
+      //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+
+      mailService.sendMail {
+        to params.dest_email
+        subject params.dest_subject
+        body params.dest_body
+      }
+
+      render "Email Sent"
     }
+
+    /* ======================================== */
+    /* ======================================== */
 }
