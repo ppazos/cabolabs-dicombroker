@@ -107,8 +107,13 @@
           }
         });
       });
-
     });
+
+    function completedSend() {
+      $.unblockUI();
+      alert("Email sent");
+    }
+
     </g:javascript>
 
     <div class="nav">
@@ -272,6 +277,7 @@
         
         <!-- Enviar la URL de la imagen a un server externo -->
         <g:link url="javascript:void(0)" elementId="show_send_frm">Send </g:link>
+        <div id="send-result"></div>
 
         <div id="snd_img_frm">
           <input type="hidden" name="wado-url" />
@@ -293,8 +299,10 @@
             </ul> 
           </div>
 
+
           <div id="destination_details">
-            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" > 
+            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
+                onComplete="completedSend()"
               <input id="dest_name" name="dest_name">
               <input id="dest_email" name="dest_email">
               <input id="dest_subject" name="dest_subject">

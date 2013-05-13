@@ -337,7 +337,6 @@ class StudySearchResultController {
         subject params.dest_subject
         body params.dest_body
       }
-
       render "Email Sent"
     }
 
