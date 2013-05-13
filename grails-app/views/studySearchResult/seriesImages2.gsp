@@ -39,7 +39,7 @@
       }
            
       #snd_img_frm {
-        display: block; //none;
+        display: none;
       }
 
       #snd_img_frm > #img_container {
