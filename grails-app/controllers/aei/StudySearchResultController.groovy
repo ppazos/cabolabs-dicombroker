@@ -320,12 +320,14 @@ class StudySearchResultController {
         
     } // seriesImages2
 
+    // Returns the destination details
     def destDetails() {
       def dest = DestinationConfig.get( params.destId )
-      println dest as JSON
       render dest as JSON
     }
 
+
+    // Sends the wado url through email to the destination selected
     /* ========================================
         Workaround to avoid error when calling 
         the sendEmail() action twice from ajax
@@ -335,7 +337,7 @@ class StudySearchResultController {
     def mailService
 
     def sendEmail() {
-      def text = "ok"
+      def text = "Mail sended correctly"
       try {
         //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
 
@@ -347,7 +349,7 @@ class StudySearchResultController {
       }
       catch (Exception e)
       {
-        text = "error"
+        text = "Error trying to send email"
       }
       render text
     }
@@ -356,6 +358,8 @@ class StudySearchResultController {
     /* ======================================== */
 
 
+    // Sends the wado url received through params to the AppDestinationConfig selected
+    // using httpBuilder
     def sendToApp() {
       def text = ""
       try {
@@ -366,7 +370,7 @@ class StudySearchResultController {
           uri.path = "/${appDestination.path}"
           uri.query = [wado_url: params.dest_url]
           response.success = { resp, json ->
-              text = "ok"
+              text = 'ok'
           }
         }
       }
@@ -378,7 +382,7 @@ class StudySearchResultController {
     }
 
 
-    //DUMMY ACTION
+    // Dummy action to receive request
     def receiveFromApp() { 
       println params
       render params as JSON
