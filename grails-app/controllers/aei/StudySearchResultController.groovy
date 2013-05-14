@@ -335,14 +335,21 @@ class StudySearchResultController {
     def mailService
 
     def sendEmail() {
-      //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+      def text = "ok"
+      try {
+        //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
 
-      mailService.sendMail {
-        to params.dest_email
-        subject params.dest_subject
-        body params.dest_body
+        mailService.sendMail {
+          to params.dest_email
+          subject params.dest_subject
+          body params.dest_body
+        }
       }
-      render "Email Sent"
+      catch (Exception e)
+      {
+        text = "error"
+      }
+      render text
     }
 
     /* ======================================== */
