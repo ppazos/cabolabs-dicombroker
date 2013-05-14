@@ -337,7 +337,7 @@ class StudySearchResultController {
     def mailService
 
     def sendEmail() {
-      def text = "Mail sended correctly"
+      def text = message( code: 'default.email.success' )
       try {
         //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
 
@@ -349,7 +349,7 @@ class StudySearchResultController {
       }
       catch (Exception e)
       {
-        text = "Error trying to send email"
+        text = message( code: 'default.email.error')
       }
       render text
     }
@@ -370,13 +370,13 @@ class StudySearchResultController {
           uri.path = "/${appDestination.path}"
           uri.query = [wado_url: params.dest_url]
           response.success = { resp, json ->
-              text = 'ok'
+              text = message(code: 'default.success')
           }
         }
       }
       catch (Exception e)
       {
-        text = "error"
+        text = message(code: 'default.error')
       }
       render text
     }
