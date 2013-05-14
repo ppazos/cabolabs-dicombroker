@@ -111,7 +111,7 @@
 
               $('#dest_email').val(data['sended_to']);
               $('#dest_subject').val(data['subject']);
-              $('#dest_body').html('este es el email a enviar');
+              $('#dest_body').html( $('#show_object_img').attr('src') );
 
             }
             else if (data['class'] == 'aei.AppDestinationConfig')
@@ -119,15 +119,16 @@
               $('#app-destination').show();
               $('#email-destination').hide();
               $('#dest_id').val(data['id']);     
+              $('#dest_url').val( $('#show_object_img').attr('src') );
             }
           }
         });
       });
     });
 
-    function completedSend() {
+    function completedSend( message ) {
       $.unblockUI();
-      alert("Email sent");
+      alert(message);
     }
 
     </g:javascript>
@@ -320,7 +321,7 @@
 
             <div id="email-destination">
               <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
-                  onComplete="completedSend()" >
+                  onSuccess="completedSend('ok')" onFailures="completedSend('error')" >
                 <input id="dest_name" name="dest_name">
                 <input id="dest_email" name="dest_email">
                 <input id="dest_subject" name="dest_subject">
@@ -332,9 +333,9 @@
 
           <div id="app-destination">
             <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
-                onComplete="completedSend()" >
+                onSuccess="completedSend('ok')" onFailures="completedSend('error')" >
               <g:hiddenField name="dest_id" />
-              <input id="dest_url" name="dest_url">
+              <g:hiddenField name="dest_url" />
               <g:actionSubmit value="Send WADO URL" />
             </g:formRemote>
           </div>

@@ -350,22 +350,29 @@ class StudySearchResultController {
 
 
     def sendToApp() {
-      def appDestination = AppDestinationConfig.get(params.dest_id)
-      def http = new HTTPBuilder("http://${appDestination.ip}:${appDestination.port}")
+      def text = ""
+      try {
+        def appDestination = AppDestinationConfig.get(params.dest_id)
+        def http = new HTTPBuilder("http://${appDestination.ip}:${appDestination.port}")
 
-      http.request(GET, JSON) {
-        uri.path = "/${appDestination.path}"
-        response.success = { resp, json ->
-            println json
+        http.request(GET, JSON) {
+          uri.path = "/${appDestination.path}"
+          uri.query = [wado_url: params.dest_url]
+          response.success = { resp, json ->
+              text = "ok"
+          }
         }
       }
-
-      println "sent"
-      render "sent"
+      catch (Exception e)
+      {
+        text = "error"
+      }
+      render text
     }
 
+
+    //DUMMY ACTION
     def receiveFromApp() { 
-      //DUMMY ACTION
       println params
       render params as JSON
     }
