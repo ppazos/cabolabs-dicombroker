@@ -45,6 +45,10 @@
         display: none;
       }
 
+      #show_send_frm {
+        display: none;
+      }
+
       #snd_img_frm > #img_container {
         width: 30%;
         float:left;
@@ -59,6 +63,13 @@
         width:30%;
         float:left;
       }
+
+      // Styles for the growlUI notification
+      div.growlUI { background: url('/dicom-broker/images/check48.png') no-repeat 10px 10px }
+      div.growlUI h1, div.growlUI h2 {
+        color: white; padding: 5px 5px 5px 75px; text-align: left
+      }
+ 
     </style>
   </head>
   <body>
@@ -66,7 +77,12 @@
 
   <g:javascript>
     $(function() {
+
+      // Re-implementation of what was done with prototype:
+      // when chosing an object to show, displays it according to
+      // its class ('SR' or 'image')
       $('a.wado_url').click( function(){
+        $('#show_send_frm').show();
         if ($(this).hasClass('SR'))
         {
           $('#show_object_img').hide();
@@ -86,6 +102,8 @@
         }
       });
 
+      // When pressing the send link to send an image,
+      // show the modal dialog to choose destination
       $('#show_send_frm').click( function() {
         $.blockUI( {
           message: $('#snd_img_frm'),
@@ -96,6 +114,9 @@
         });
       });
 
+      
+      // When selecting a destination to send the wado-url, 
+      // gets its data via ajax and shows the information in the modal dialog
       $('.dest-link').click( function() {
         var id = $(this).find('[name=dest-id]').val();
         $.ajax({
@@ -112,7 +133,6 @@
               $('#dest_email').val(data['sended_to']);
               $('#dest_subject').val(data['subject']);
               $('#dest_body').html( $('#show_object_img').attr('src') );
-
             }
             else if (data['class'] == 'aei.AppDestinationConfig')
             {
@@ -126,9 +146,10 @@
       });
     });
 
+    // When the send image is completed (to an app or through email)
+    // shows a growl notification indicating the result
     function completedSend( message ) {
-      $.unblockUI();
-      alert(message);
+      $.growlUI('Action Completed', message); 
     }
 
     </g:javascript>
@@ -294,7 +315,6 @@
         
         <!-- Enviar la URL de la imagen a un server externo -->
         <g:link url="javascript:void(0)" elementId="show_send_frm">Send </g:link>
-        <div id="send-result"></div>
 
         <div id="snd_img_frm">
           <input type="hidden" name="wado-url" />
@@ -321,7 +341,7 @@
 
             <div id="email-destination">
               <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
-                  onSuccess="completedSend('ok')" onFailures="completedSend('error')" >
+                  onSuccess="completedSend(data)" onFailure="completedSend(errorThrown)" after="\$.unblockUI();">
                 <input id="dest_name" name="dest_name">
                 <input id="dest_email" name="dest_email">
                 <input id="dest_subject" name="dest_subject">
@@ -333,7 +353,7 @@
 
           <div id="app-destination">
             <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
-                onSuccess="completedSend('ok')" onFailures="completedSend('error')" >
+                onSuccess="completedSend(data);" onFailure="completedSend(errorThrown);" after="\$.unblockUI();">
               <g:hiddenField name="dest_id" />
               <g:hiddenField name="dest_url" />
               <g:actionSubmit value="Send WADO URL" />
