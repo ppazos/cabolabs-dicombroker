@@ -38,6 +38,8 @@ grails.project.dependency.resolution = {
       runtime ":jquery:1.8.3"
       runtime ":resources:1.1.6"
 
+      runtime "org.codehaus.groovy.modules.http-builder:http-builder:0.5.0-RC2"
+
       build ":tomcat:$grailsVersion"
 
       compile ":mail:1.0"

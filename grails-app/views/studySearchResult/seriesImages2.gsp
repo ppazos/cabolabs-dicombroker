@@ -29,6 +29,9 @@
         border: 0px;
         display: none;
       }
+      #email-destination, #app-destination {
+        display: none;
+      }
       
       <%-- El alto deberia depender de la cantidad de items en objetos, 
            con 7 o menos, dejar alto automatico, con mas de 7 fijar en 160px --%>
@@ -101,9 +104,22 @@
           data: 'destId='+id,
           success: function(data) {
             $('#dest_name').val(data['name']);
-            $('#dest_email').val(data['sended_to']);
-            $('#dest_subject').val(data['subject']);
-            $('#dest_body').html('este es el email a envial');
+            if (data['class'] == 'aei.EmailDestinationConfig')
+            {
+              $('#app-destination').hide();
+              $('#email-destination').show();
+
+              $('#dest_email').val(data['sended_to']);
+              $('#dest_subject').val(data['subject']);
+              $('#dest_body').html('este es el email a enviar');
+
+            }
+            else if (data['class'] == 'aei.AppDestinationConfig')
+            {
+              $('#app-destination').show();
+              $('#email-destination').hide();
+              $('#dest_id').val(data['id']);     
+            }
           }
         });
       });
@@ -301,19 +317,30 @@
 
 
           <div id="destination_details">
-            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
-                onComplete="completedSend()"
-              <input id="dest_name" name="dest_name">
-              <input id="dest_email" name="dest_email">
-              <input id="dest_subject" name="dest_subject">
-              <textarea id="dest_body" name="dest_body"></textarea>
 
+            <div id="email-destination">
+              <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
+                  onComplete="completedSend()" >
+                <input id="dest_name" name="dest_name">
+                <input id="dest_email" name="dest_email">
+                <input id="dest_subject" name="dest_subject">
+                <textarea id="dest_body" name="dest_body"></textarea>
+                <g:actionSubmit value="Send WADO URL" />
+              </g:formRemote>
+            </div>
+          </div>
+
+          <div id="app-destination">
+            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
+                onComplete="completedSend()" >
+              <g:hiddenField name="dest_id" />
+              <input id="dest_url" name="dest_url">
               <g:actionSubmit value="Send WADO URL" />
             </g:formRemote>
           </div>
 
           <!-- Ir a otra aplicacion una vez que envia la wado url -->
-          <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a>
+          <!-- <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a> -->
         </div>
         <div style="clear:both">
 

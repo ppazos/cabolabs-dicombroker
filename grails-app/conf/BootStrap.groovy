@@ -1,5 +1,6 @@
 
 import aei.AeRegistry
+import aei.AppDestinationConfig
 import aei.EmailDestinationConfig
 
 class BootStrap {
@@ -21,6 +22,15 @@ class BootStrap {
                                                     "body"      : "test body"
                                               )
          if (!emailDest2.save()) println "EmailDest: " + emailDest2.errors
+
+
+         AppDestinationConfig appDest1 = new AppDestinationConfig(
+                                                    "name"      : "Dicombroker app",
+                                                    "ip"        : "localhost",
+                                                    "port"      : 8080,
+                                                    "path"      : "dicom-broker/studySearchResult/receiveFromApp"
+                                              )
+         if (!appDest1.save()) println "AppDest: " + appDest1.errors
 
          // PACS
          AeRegistry pacs1 = new AeRegistry(
