@@ -42,3 +42,6 @@
 # other
 *.iws
 
+# vim swap files
+*.swp
+
