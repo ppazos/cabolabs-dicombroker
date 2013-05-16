@@ -3,6 +3,20 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'security.User'
 grails.plugins.springsecurity.authority.className = 'security.Role'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'security.UserRole'
 
+import grails.plugins.springsecurity.SecurityConfigType
+grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
+grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
+grails.plugins.springsecurity.interceptUrlMap = [
+ '/user/**':             ['ROLE_GODLIKE','ADMIN'],
+ '/role/**':             ['ROLE_GODLIKE','ADMIN'],
+
+ '/registrationCode/**':  ['ROLE_GODLIKE'],
+ '/securityInfo/**':      ['ROLE_GODLIKE'],
+
+ '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR'],
+ '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR']
+]
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 

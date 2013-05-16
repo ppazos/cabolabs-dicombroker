@@ -11,17 +11,24 @@ class BootStrap {
 
   def init = { servletContext ->
 
-    def godlikeRole = Role.findByAuthority('GODLIKE') ?: new Role(authority: 'GODLIKE').save(failOnError: true)
-    def adminRole = Role.findByAuthority('ADMIN') ?: new Role(authority: 'ADMIN').save(failOnError: true)
-    def doctorRole = Role.findByAuthority('DOCTOR') ?: new Role(authority: 'DOCTOR').save(failOnError: true)
+    def godlikeRole = Role.findByAuthority('ROLE_GODLIKE') ?: new Role(authority: 'ROLE_GODLIKE').save(failOnError: true)
+    def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: 'ROLE_ADMIN').save(failOnError: true)
+    def doctorRole = Role.findByAuthority('ROLE_DOCTOR') ?: new Role(authority: 'ROLE_DOCTOR').save(failOnError: true)
 
     def godlikeUser = User.findByUsername('godlike') ?: 
           new User(username: 'godlike', password: '1234', enabled: true)
          .save(failOnError: true)
-
     if (!godlikeUser.authorities.contains(godlikeRole)) { UserRole.create godlikeUser, godlikeRole }
 
+    def adminUser = User.findByUsername('admin') ?: 
+          new User(username: 'admin', password: '1234', enabled: true)
+         .save(failOnError: true)
+    if (!adminUser.authorities.contains(adminRole)) { UserRole.create adminUser, adminRole }
 
+    def doctorUser = User.findByUsername('doctor') ?: 
+          new User(username: 'doctor', password: '1234', enabled: true)
+         .save(failOnError: true)
+    if (!doctorUser.authorities.contains(doctorRole)) { UserRole.create doctorUser, doctorRole }
 
     /* ============================================================================== */
     EmailDestinationConfig emailDest1 = new EmailDestinationConfig(
