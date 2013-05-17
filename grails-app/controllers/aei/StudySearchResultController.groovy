@@ -6,6 +6,12 @@ package aei
 //import hce.core.composition.* // Composition y EventContext
 //import hce.HceService
 import aei.AeiService
+import grails.converters.*
+
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.5.0-RC2' ) 
+import groovyx.net.http.*
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
 
 /**
  * @author Pablo Pazos Gutierrez (pablo.swp@gmail.com)
@@ -283,32 +289,103 @@ class StudySearchResultController {
         
         def selectedStudy = StudySearchResult.get( params.id )
         def selectedSerie = SeriesSearchResult.get( params.serieId )
+        def destinations = DestinationConfig.getAll()
 		
-		println "=== seriesImages2 ==="
-		println "=== selectedStudy: " + selectedStudy
-		println "=== selectedSerie: " + selectedSerie
-		println ""
+        println "=== seriesImages2 ==="
+        println "=== selectedStudy: " + selectedStudy
+        println "=== selectedSerie: " + selectedSerie
+        println ""
 		
         // imagenes y reportes
         def objects = []
         try
         {
-			objects = aeiService.sendDICOMQuery4( selectedStudy.source,
-                                                  selectedSerie.studyUID, // Se agrega para consulta en COMEPA, MACIEL y ClearCanvas Server andan sin este parametro.
-                                                  selectedSerie.serieUID )
+			    objects = aeiService.sendDICOMQuery4( selectedStudy.source,
+                                                selectedSerie.studyUID, // Se agrega para consulta en COMEPA, MACIEL y ClearCanvas Server andan sin este parametro.
+                                                selectedSerie.serieUID )
         }
         catch (Exception e)
         {
-            flash.message = "studySearchResult.error.pacsComm"
-			println "======AAAA====="
-			println e.getMessage()
-			println "======AAAA====="
+          flash.message = "studySearchResult.error.pacsComm"
+      		println "======AAAA====="
+    			println e.getMessage()
+		    	println "======AAAA====="
         }
         
         return [selectedStudy:  selectedStudy,
                 selectedSerie:  selectedSerie,
                 objects:        objects,
-                reg:            selectedStudy.source]
+                reg:            selectedStudy.source,
+                destinations:   destinations
+        ]
         
     } // seriesImages2
+
+    // Returns the destination details
+    def destDetails() {
+      def dest = DestinationConfig.get( params.destId )
+      render dest as JSON
+    }
+
+
+    // Sends the wado url through email to the destination selected
+    /* ========================================
+        Workaround to avoid error when calling 
+        the sendEmail() action twice from ajax
+    ========================================== */
+
+    // def notifierService
+    def mailService
+
+    def sendEmail() {
+      def text = message( code: 'default.email.success' )
+      try {
+        //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+
+        mailService.sendMail {
+          to params.dest_email
+          subject params.dest_subject
+          body params.dest_body
+        }
+      }
+      catch (Exception e)
+      {
+        text = message( code: 'default.email.error')
+      }
+      render text
+    }
+
+    /* ======================================== */
+    /* ======================================== */
+
+
+    // Sends the wado url received through params to the AppDestinationConfig selected
+    // using httpBuilder
+    def sendToApp() {
+      def text = ""
+      try {
+        def appDestination = AppDestinationConfig.get(params.dest_id)
+        def http = new HTTPBuilder("http://${appDestination.ip}:${appDestination.port}")
+
+        http.request(GET, JSON) {
+          uri.path = "/${appDestination.path}"
+          uri.query = [wado_url: params.dest_url]
+          response.success = { resp, json ->
+              text = message(code: 'default.success')
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        text = message(code: 'default.error')
+      }
+      render text
+    }
+
+
+    // Dummy action to receive request
+    def receiveFromApp() { 
+      println params
+      render params as JSON
+    }
 }

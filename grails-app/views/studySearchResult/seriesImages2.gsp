@@ -3,66 +3,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <meta name="layout" content="main" />
     <title><g:message code="aei.studySearchResult.list.title" /></title>
-	<g:javascript library="prototype/prototype" />
-    <g:javascript>
-      Event.observe(window, 'load', function () {
-      
-        $$('a.wado_url').each( function(item) {
-        
-          //alert(item.href);
-        
-          item.observe('click', function(event) {
-          
-            if (item.hasClassName('SR'))
-            {
-              //alert('SR');
-              $('show_object_img').setStyle( {display: 'none'} );
-              $('snd_img_frm').setStyle( {display: 'none'} );
-              
-              $('show_object_iframe').src = item.href;
-              $('show_object_iframe').setStyle( {display: 'block'} );
-            }
-            else
-            {
-              //alert(item.classNames());
-              $('show_object_iframe').setStyle( {display: 'none'} );
-              
-              $('show_object_img').src = item.href;
-              $('show_object_img').setStyle( {display: 'block'} );
-    
-              $('snd_img_frm').setStyle( {display: 'block'} );
-              $('snd_img_frm')['wado-url'].value = item.href;
-    
-              //alert($('snd_img_frm')['wado-url'].value);
-            }
-          
-            //$('show_object').src = item.href;
-            //alert(item.href);
-             
-            return false;
-          });
-        });
-    
-        // No se puede enviar el form por ajax porque es cross domain...
-        // Mando por ajax a un proxy local
-	    Event.observe('snd_img_frm', 'submit', function(event) {
-    
-		    $('snd_img_frm').request({
-    
-		        // Siempre va a ser ok porque es mi server
-		        onSuccess: function(t)
-                {
-		           alert(t.responseText);
-		        },
-                onError: function(t)
-                {
-                   alert('error: ' + t.responseText);
-                }
-		    });
-		    Event.stop(event); // stop the form from submitting
-		});
-      });
-    </g:javascript>
+
+    <r:require modules="blockUI" />
+
     <style>
       #show_object_iframe {
         height: 400px;
@@ -86,21 +29,131 @@
         border: 0px;
         display: none;
       }
+      #email-destination, #app-destination {
+        display: none;
+      }
       
       <%-- El alto deberia depender de la cantidad de items en objetos, 
            con 7 o menos, dejar alto automatico, con mas de 7 fijar en 160px --%>
       .objects_div {
         height: 110px;
         overflow: auto;
-		border-bottom: 1px solid #ddd;
+		    border-bottom: 1px solid #ddd;
       }
            
       #snd_img_frm {
         display: none;
       }
+
+      #show_send_frm {
+        display: none;
+      }
+
+      #snd_img_frm > #img_container {
+        width: 30%;
+        float:left;
+      }
+
+      #snd_img_frm > #destinations_container {
+        width:30%;
+        float:left;
+      }
+
+      #snd_img_frm > #destination_details {
+        width:30%;
+        float:left;
+      }
+
+      // Styles for the growlUI notification
+      div.growlUI { background: url('/dicom-broker/images/check48.png') no-repeat 10px 10px }
+      div.growlUI h1, div.growlUI h2 {
+        color: white; padding: 5px 5px 5px 75px; text-align: left
+      }
+ 
     </style>
   </head>
   <body>
+
+
+  <g:javascript>
+    $(function() {
+
+      // Re-implementation of what was done with prototype:
+      // when chosing an object to show, displays it according to
+      // its class ('SR' or 'image')
+      $('a.wado_url').click( function(){
+        $('#show_send_frm').show();
+        if ($(this).hasClass('SR'))
+        {
+          $('#show_object_img').hide();
+          $('#snd_img_frm').hide();
+
+          $('#show_object_iframe').attr('src', this.href);
+          $('#show_object_iframe').show();
+        }
+        else
+        {
+          $('#show_object_iframe').hide();
+          $('#show_object_img').attr('src', this.href);
+          $('#form_object_img').attr('src', this.href);
+
+          $('#show_send_frm').show();
+          $('#snd_img_frm').find('[name=wado-url]').val(this.href);
+        }
+      });
+
+      // When pressing the send link to send an image,
+      // show the modal dialog to choose destination
+      $('#show_send_frm').click( function() {
+        $.blockUI( {
+          message: $('#snd_img_frm'),
+          css: { 
+            left: ($(window).width() - 800) /2 + 'px', 
+            width: '800px' 
+          } 
+        });
+      });
+
+      
+      // When selecting a destination to send the wado-url, 
+      // gets its data via ajax and shows the information in the modal dialog
+      $('.dest-link').click( function() {
+        var id = $(this).find('[name=dest-id]').val();
+        $.ajax({
+          url: "${createLink(controller: 'StudySearchResult', action: 'destDetails')}",
+          type: 'GET',
+          data: 'destId='+id,
+          success: function(data) {
+            $('#dest_name').val(data['name']);
+            if (data['class'] == 'aei.EmailDestinationConfig')
+            {
+              $('#app-destination').hide();
+              $('#email-destination').show();
+
+              $('#dest_email').val(data['sended_to']);
+              $('#dest_subject').val(data['subject']);
+              $('#dest_body').html( $('#show_object_img').attr('src') );
+            }
+            else if (data['class'] == 'aei.AppDestinationConfig')
+            {
+              $('#app-destination').show();
+              $('#email-destination').hide();
+              $('#dest_id').val(data['id']);     
+              $('#dest_url').val( $('#show_object_img').attr('src') );
+            }
+          }
+        });
+      });
+    });
+
+    // When the send image is completed (to an app or through email)
+    // shows a growl notification indicating the result
+    function completedSend( message ) {
+      $.growlUI('Action Completed', message); 
+    }
+
+    </g:javascript>
+
     <div class="nav">
       <span class="menuButton"><g:link action="list" class="home">Home</g:link></span>
     </div>
@@ -261,20 +314,62 @@
         </div>
         
         <!-- Enviar la URL de la imagen a un server externo -->
-        <g:form id="snd_img_frm" url="[controller:'studySearchResult', action:'sendWadoUrl']" method="post">
+        <g:link url="javascript:void(0)" elementId="show_send_frm">Send </g:link>
+
+        <div id="snd_img_frm">
           <input type="hidden" name="wado-url" />
-          <input type="submit" value="Send WADO URL" />
-          
+
+          <div id="img_container">
+            <!-- Image to send -->
+            <img src="" id="form_object_img" height="200" width="auto"/>
+          </div>
+
+          <div id="destinations_container">
+            <!-- Destinations list -->
+            <ul>
+              <g:each in="${destinations}" status="i" var="destination">
+                <li class="dest-link">
+                  <input type="hidden" value="${destination.id}" name="dest-id" />
+                  <g:link url="javascript:void(0)">${destination.name}</g:link>
+                </li>
+              </g:each>
+            </ul> 
+          </div>
+
+
+          <div id="destination_details">
+
+            <div id="email-destination">
+              <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
+                  onSuccess="completedSend(data)" onFailure="completedSend(errorThrown)" after="\$.unblockUI();">
+                <input id="dest_name" name="dest_name">
+                <input id="dest_email" name="dest_email">
+                <input id="dest_subject" name="dest_subject">
+                <textarea id="dest_body" name="dest_body"></textarea>
+                <g:actionSubmit value="Send WADO URL" />
+              </g:formRemote>
+            </div>
+          </div>
+
+          <div id="app-destination">
+            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
+                onSuccess="completedSend(data);" onFailure="completedSend(errorThrown);" after="\$.unblockUI();">
+              <g:hiddenField name="dest_id" />
+              <g:hiddenField name="dest_url" />
+              <g:actionSubmit value="Send WADO URL" />
+            </g:formRemote>
+          </div>
+
           <!-- Ir a otra aplicacion una vez que envia la wado url -->
-          <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a>
-        </g:form>
+          <!-- <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a> -->
+        </div>
+        <div style="clear:both">
 
         <!-- Para mostrar SRs -->
         <iframe src="" id="show_object_iframe"></iframe>
         
         <!-- Para mostrar imagenes -->
         <img src="" id="show_object_img" />
-        
       </div>
     </div>
   </body>
