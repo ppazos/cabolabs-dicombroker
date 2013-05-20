@@ -16,6 +16,11 @@ grails.plugins.springsecurity.interceptUrlMap = [
  '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR'],
  '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR']
 ]
+
+grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
+grails.plugins.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/studySearchResult/list"
+
 grails.plugins.springsecurity.useSecurityEventListener = true
 grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
   // println "============ interactive authentication success ========"
