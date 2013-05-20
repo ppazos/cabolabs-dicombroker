@@ -7,8 +7,8 @@ import grails.plugins.springsecurity.SecurityConfigType
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
 grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
 grails.plugins.springsecurity.interceptUrlMap = [
- '/user/**':             ['ROLE_GODLIKE','ADMIN'],
- '/role/**':             ['ROLE_GODLIKE','ADMIN'],
+ '/user/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/role/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
 
  '/registrationCode/**':  ['ROLE_GODLIKE'],
  '/securityInfo/**':      ['ROLE_GODLIKE'],
@@ -16,6 +16,10 @@ grails.plugins.springsecurity.interceptUrlMap = [
  '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR'],
  '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR']
 ]
+grails.plugins.springsecurity.useSecurityEventListener = true
+grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
+  // println "============ interactive authentication success ========"
+}
 
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
