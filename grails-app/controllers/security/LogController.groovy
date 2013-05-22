@@ -13,13 +13,17 @@ class LogController {
     }
 
     def listContent(Integer max){
-      def logsList = Log.withCriteria {
+      params.max = Math.min(max ?: 10, 100)
+      params.offset = params.offset ?: 0
+
+      def c = Log.createCriteria()
+      def logsList = c.list(max: params.max, offset: params.offset) {
         if(params.actionLogSearch)
           eq('action', params.actionLogSearch)
         if(params.userId)
           eq('user_id', params.userId.toInteger())
       }
-      render(template: "listContent", model: [logInstanceList: logsList, logInstanceTotal: logsList.size()])
+      render(template: "listContent", model: [logInstanceList: logsList, logInstanceTotal: logsList.totalCount])
     }
 
     def search = {
