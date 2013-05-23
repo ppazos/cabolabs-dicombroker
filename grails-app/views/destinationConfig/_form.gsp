@@ -3,6 +3,7 @@
     $('#email-dest-fields').hide();
 
     // Check wich radio button should be checked
+
     if( $('#port').val() != "")
     {
       $('#app-dest-fields').show();
@@ -11,8 +12,8 @@
     }
     else if( $('#sended_from').val() != "")
     {
-      $('#app-dest-fields').show();
-      $('#email-dest-fields').hide();
+      $('#app-dest-fields').hide();
+      $('#email-dest-fields').show();
       $('#2-dest-type').attr('checked',true);
     }
       
