@@ -19,14 +19,8 @@ class DestinationConfigController {
     }
 
     def save() {
-        def destinationConfig
-        if (params.port) 
-          destinationConfig = new AppDestinationConfig(params)
-        else
-          destinationConfig = new EmailDestinationConfig(params)
-
-        if (!destinationConfig.save(flush: true))
-        {
+        def destinationConfig = params.port ? new AppDestinationConfig(params) : new EmailDestinationConfig(params)
+        if (!destinationConfig.save(flush: true)){
             render(view: "create", model: [destinationConfigInstance: destinationConfig])
             return
         }
@@ -92,7 +86,7 @@ class DestinationConfigController {
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'destinationConfig.label', default: 'DestinationConfig'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "edit", id: id)
         }
     }
 }
