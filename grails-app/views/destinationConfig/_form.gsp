@@ -1,6 +1,8 @@
 <script>
   $(document).ready(function(){
     $('#email-dest-fields').hide();
+
+    // Check wich radio button should be checked
     if( $('#port').val() != "")
     {
       $('#app-dest-fields').show();
@@ -14,16 +16,24 @@
       $('#2-dest-type').attr('checked',true);
     }
       
+    // When the radio button is changed, hide
+    // the 'other' form and clean its inputs
     $(".dest-type").change( function() {
       if($(".dest-type:checked").val() == "1")
       {
         $('#app-dest-fields').show();
         $('#email-dest-fields').hide();
+        $('#email-dest-fields :input').each( function(){
+          this.value = "";
+        });
       }
       else 
       {
         $('#app-dest-fields').hide();
         $('#email-dest-fields').show();
+        $('#app-dest-fields :input').each( function(){
+          this.value = "";
+        });
       }
     });
   });
