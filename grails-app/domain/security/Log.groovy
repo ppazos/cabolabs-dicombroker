@@ -8,7 +8,7 @@ class Log {
 
     static transients = ['username']
     static constraints = {
-      action inList: ['search', 'login', 'logout', 'search', 'send']
+      action inList: ['login', 'logout', 'search', 'send']
     }
 
     def getUsername() {

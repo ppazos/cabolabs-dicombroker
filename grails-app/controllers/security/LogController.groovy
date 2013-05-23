@@ -9,7 +9,7 @@ class LogController {
 
     def list(Integer max) {
       params.max = Math.min(max ?: 10, 100)
-      [logInstanceList: Log.list(params), logInstanceTotal: Log.count()]
+      [logInstance: new Log(), logInstanceList: Log.list(params), logInstanceTotal: Log.count()]
     }
 
     def listContent(Integer max){

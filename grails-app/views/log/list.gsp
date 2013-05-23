@@ -21,7 +21,7 @@
         <g:formRemote name="searchForm" url="[controller:'log', action: 'listContent']" update="listLogContent">
           <g:select name="actionLogSearch"
               noSelection="${['':'Select One...']}"
-              from="${['login','logout','search']}">
+              from="${logInstance.constraints.action.inList}">
           </g:select>
 
           <g:select name="userId"
