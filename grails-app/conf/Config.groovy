@@ -10,11 +10,13 @@ grails.plugins.springsecurity.interceptUrlMap = [
  '/user/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
  '/role/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
 
- '/registrationCode/**':  ['ROLE_GODLIKE'],
- '/securityInfo/**':      ['ROLE_GODLIKE'],
+ '/registrationCode/**':  ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/securityInfo/**':      ['ROLE_GODLIKE','ROLE_ADMIN'],
 
  '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR'],
- '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR']
+ '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR'],
+ '/destinationConfig/**': ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/log/**':               ['ROLE_GODLIKE','ROLE_ADMIN']
 ]
 
 grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
