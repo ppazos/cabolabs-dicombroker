@@ -9,6 +9,17 @@
 		<g:set var="entityName" value="${message(code: 'log.label', default: 'Log')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
     <r:require modules="blockUI" />
+    <g:javascript>
+     $(function() {
+       $(".step, .nextLink, .prevLink").live("click", function(event){ 
+        event.preventDefault();
+        $.get(event.target.href, function(data, textStatus, request){
+            $("#listLogContent").html(data);
+          }
+        );
+       });
+      });
+    </g:javascript>
 	</head>
 	<body>
     <div class="body">

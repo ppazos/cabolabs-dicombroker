@@ -21,6 +21,6 @@
           </table>
         </div>
         <div class="pagination">
-          <g:paginate total="${logInstanceTotal}" />
+          <g:paginate total="${logInstanceTotal}" action="listContent" />
         </div>
 
