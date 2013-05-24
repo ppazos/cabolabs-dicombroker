@@ -21,7 +21,7 @@ grails.plugins.springsecurity.interceptUrlMap = [
 
 grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
 grails.plugins.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/studySearchResult/list"
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/dashboard"
 
 grails.plugins.springsecurity.useSecurityEventListener = true
 grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
