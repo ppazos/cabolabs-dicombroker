@@ -6,7 +6,7 @@ class UrlMappings {
 		  }
 	  }
 
-    "/"(view:"/index")
+    "/"(controller:"dashboard", action:"index")
 	  "500"(view:'/error')
 
     "/login/$action?"(controller: "login")
