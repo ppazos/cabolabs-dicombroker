@@ -20,7 +20,9 @@
 	<body>
 		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
     <div id="userInfo">
-      <sec:loggedInUserInfo field="username"/><g:link controller='logout'>Logout</g:link>
+      <sec:ifLoggedIn>
+        Logged in as <sec:loggedInUserInfo field="username"/> (<g:link controller='logout'>Logout</g:link>)
+      </sec:ifLoggedIn>
       <sec:ifNotLoggedIn>
         <g:link controller='login' action='auth'>Login</g:link>
       </sec:ifNotLoggedIn>
