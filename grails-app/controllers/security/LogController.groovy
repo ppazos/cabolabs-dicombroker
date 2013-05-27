@@ -2,6 +2,10 @@ package security
 
 class LogController {
 
+    def successfullLogin() {
+      redirect(controller: "dashboard", action:"index")
+    }
+
     def index() {
       redirect(action: "list", params: params)
     }
@@ -27,7 +31,6 @@ class LogController {
     }
 
     def search = {
-
         if (!params.controller && !params.action && !params.userName)
         {
            flash.message = 'Please specify a search criteria'

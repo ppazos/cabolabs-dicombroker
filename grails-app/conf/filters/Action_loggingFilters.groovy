@@ -8,6 +8,15 @@ class Action_loggingFilters {
     def springSecurityService
     def filters = {
 
+        loginLog(controller:'dashboard', action:'index'){
+          after = {
+            if(request.getHeader("referer") ==~ ".*login/auth"){
+              def log = new Log(controller: controllerName, action: "login", user_id: springSecurityService.principal.id)
+              log.save()
+            }
+          }
+        }
+
         logoutLog(controller:'logout', action:'index'){
           before = {
             if (springSecurityService.isLoggedIn())
