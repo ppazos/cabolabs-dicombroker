@@ -329,12 +329,13 @@ class StudySearchResultController {
 
 
     // Sends the wado url through email to the destination selected
-    /* ========================================
-        Workaround to avoid error when calling 
-        the sendEmail() action twice from ajax
-        The email is sended inside the controller
-        instead of using the service
-    ========================================== */
+    /* =======================================================================================
+        Workaround to avoid error when calling the sendEmail() action twice from ajax
+        The email is sended inside the controller instead of using the service
+
+        Gmail heuristics makes a reverse dns check if any links are present on the email body
+          -> If the link contains an invalid ip or domain gets sended to Spam
+    ========================================================================================== */
 
     def mailService
 

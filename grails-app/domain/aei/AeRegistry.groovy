@@ -18,6 +18,7 @@ public class AeRegistry {
     int    localPort        // Puerto donde escucha el proceso del AE
     
     String remoteAETitle    // Nombre del application entity remoto
+    String remoteDNS        // Dominio del equipo donde esta el AE remoto
     String remoteIP         // Aireccion IP del equipo donde esta el AE remoto
     int    remotePort       // Puerto donde escucha el proceso del AE remoto
     int    remoteWADOPort   // Puerto en el que escucha el manejador WADO remoto
