@@ -332,16 +332,15 @@ class StudySearchResultController {
     /* ========================================
         Workaround to avoid error when calling 
         the sendEmail() action twice from ajax
+        The email is sended inside the controller
+        instead of using the service
     ========================================== */
 
-    // def notifierService
     def mailService
 
     def sendEmail() {
       def text = message( code: 'default.email.success' )
       try {
-        //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
-
         mailService.sendMail {
           to params.dest_email
           subject params.dest_subject
