@@ -59,7 +59,7 @@ class BootStrap {
     // PACS
     AeRegistry pacs1 = new AeRegistry(
                            "remoteAETitle":"DCM4CHEE",
-                           "remoteDNS": "tarmacit.zapto.org",
+                           "remoteDomain": "tarmacit.zapto.org",
                            "remoteIP": "192.168.1.110",
                            "remotePort":11112,
                            "remoteWADOPort":8080,

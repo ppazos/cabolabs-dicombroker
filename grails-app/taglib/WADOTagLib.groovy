@@ -40,7 +40,7 @@ class WADOTagLib {
                      
         if (!attrs.reg) throw new Exception("reg es obligatorio")
         //url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
-        url = attrs.reg.remoteDNS ? attrs.reg.remoteDNS : attrs.reg.remoteIP
+        url = attrs.reg.remoteDomain ? attrs.reg.remoteDomain : attrs.reg.remoteIP
         url = url + ":" + attrs.reg.remoteWADOPort
         if (attrs.reg.remoteWADOPath) url += "/" + attrs.reg.remoteWADOPath
         
