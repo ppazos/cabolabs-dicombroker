@@ -6,6 +6,7 @@ package aei
 //import hce.core.composition.* // Composition y EventContext
 //import hce.HceService
 import aei.AeiService
+import aei.AeRegistry
 import grails.converters.*
 
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.5.0-RC2' ) 
@@ -342,6 +343,14 @@ class StudySearchResultController {
     def sendEmail() {
       def text = message( code: 'default.email.success' )
       try {
+        if(!AeRegistry.get(params.int('dest_id')).remoteDomain){ 
+          mailService.sendMail {
+            to params.dest_email
+            subject params.dest_subject
+            body( view: '/mail/check_spam' )
+          }
+        }
+
         mailService.sendMail {
           to params.dest_email
           subject params.dest_subject
@@ -350,6 +359,7 @@ class StudySearchResultController {
       }
       catch (Exception e)
       {
+        println(e.message)
         text = message( code: 'default.email.error')
       }
       render text
