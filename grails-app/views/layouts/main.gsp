@@ -19,6 +19,31 @@
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
+    <div id="userInfo">
+      <sec:ifLoggedIn>
+        Logged in as <sec:loggedInUserInfo field="username"/> (<g:link controller='logout'>Logout</g:link>)
+      </sec:ifLoggedIn>
+      <sec:ifNotLoggedIn>
+        <g:link controller='login' action='auth'>Login</g:link>
+      </sec:ifNotLoggedIn>
+    </div>
+    <div id="menu">
+      <ul>
+        <li><g:link controller="dashboard">Home</g:link>
+        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
+          <li><g:link controller='log' action='list'>log</g:link></li>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
+          <li><g:link controller='user'>security</g:link></li>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
+          <li><g:link controller='destinationConfig' action='list'>destinations</g:link></li>
+        </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_DOCTOR,ROLE_GODLIKE">
+          <li><g:link controller='StudySearchResult'>search</g:link></li>
+        </sec:ifAnyGranted>       
+      </ul>
+    </div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

@@ -130,9 +130,11 @@
               $('#app-destination').hide();
               $('#email-destination').show();
 
+              $('#dest_id').val(data['id']);
               $('#dest_email').val(data['sended_to']);
               $('#dest_subject').val(data['subject']);
               $('#dest_body').html( $('#show_object_img').attr('src') );
+              $('#dest_send_confirmation').attr('checked', data['send_confirmation']);
             }
             else if (data['class'] == 'aei.AppDestinationConfig')
             {
@@ -342,10 +344,14 @@
             <div id="email-destination">
               <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
                   onSuccess="completedSend(data)" onFailure="completedSend(errorThrown)" after="\$.unblockUI();">
+                <g:hiddenField name="dest_id" />
                 <input id="dest_name" name="dest_name">
                 <input id="dest_email" name="dest_email">
                 <input id="dest_subject" name="dest_subject">
                 <textarea id="dest_body" name="dest_body"></textarea>
+                <label for="dest_send_confirmation"><g:message code="default.email.send_confirmation" /></label>
+                <input type="checkbox" id="dest_send_confirmation" name="dest_send_confirmation" value="true">
+                <br>
                 <g:actionSubmit value="Send WADO URL" />
               </g:formRemote>
             </div>
