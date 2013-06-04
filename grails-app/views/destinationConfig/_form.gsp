@@ -79,6 +79,13 @@
     </label>
     <g:textField name="body" value="${destinationConfigInstance.hasProperty('body') ? destinationConfigInstance?.body : ''}"/>
   </div>
+
+  <div class="fieldcontain ${hasErrors(bean: destinationConfigInstance, field: 'send_confirmation', 'error')} ">
+    <label for="send_confirmation">
+      <g:message code="destinationConfig.send_confirmation.label" default="Send Confirmation" />
+    </label>
+    <g:checkBox name="send_confirmation" value="${destinationConfigInstance.hasProperty('send_confirmation') ? destinationConfigInstance?.send_confirmation : ''}"/>
+  </div>
 </div>
 
 <div id="app-dest-fields">

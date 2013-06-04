@@ -343,7 +343,7 @@ class StudySearchResultController {
     def sendEmail() {
       def text = message( code: 'default.email.success' )
       try {
-        if(!AeRegistry.get(params.int('dest_id')).remoteDomain){ 
+        if(params.dest_send_confirmation == "true" && !AeRegistry.get(params.int('dest_id')).remoteDomain){
           mailService.sendMail {
             to params.dest_email
             subject params.dest_subject
