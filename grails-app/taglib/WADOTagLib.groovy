@@ -39,7 +39,9 @@ class WADOTagLib {
         if (attrs.frameNumber) params += "&frameNumber="+ attrs.frameNumber
                      
         if (!attrs.reg) throw new Exception("reg es obligatorio")
-        url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
+        //url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
+        url = attrs.reg.remoteDomain ? attrs.reg.remoteDomain : attrs.reg.remoteIP
+        url = url + ":" + attrs.reg.remoteWADOPort
         if (attrs.reg.remoteWADOPath) url += "/" + attrs.reg.remoteWADOPath
         
         

@@ -6,6 +6,7 @@ package aei
 //import hce.core.composition.* // Composition y EventContext
 //import hce.HceService
 import aei.AeiService
+import aei.AeRegistry
 import grails.converters.*
 
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.5.0-RC2' ) 
@@ -329,18 +330,26 @@ class StudySearchResultController {
 
 
     // Sends the wado url through email to the destination selected
-    /* ========================================
-        Workaround to avoid error when calling 
-        the sendEmail() action twice from ajax
-    ========================================== */
+    /* =======================================================================================
+        Workaround to avoid error when calling the sendEmail() action twice from ajax
+        The email is sended inside the controller instead of using the service
 
-    // def notifierService
+        Gmail heuristics makes a reverse dns check if any links are present on the email body
+          -> If the link contains an invalid ip or domain gets sended to Spam
+    ========================================================================================== */
+
     def mailService
 
     def sendEmail() {
       def text = message( code: 'default.email.success' )
       try {
-        //notifierService.sendEmail(params.dest_email, params.dest_subject, params.dest_body)
+        if(params.dest_send_confirmation == "true" && !AeRegistry.get(params.int('dest_id')).remoteDomain){
+          mailService.sendMail {
+            to params.dest_email
+            subject params.dest_subject
+            body( view: '/mail/check_spam' )
+          }
+        }
 
         mailService.sendMail {
           to params.dest_email
@@ -350,6 +359,7 @@ class StudySearchResultController {
       }
       catch (Exception e)
       {
+        println(e.message)
         text = message( code: 'default.email.error')
       }
       render text
