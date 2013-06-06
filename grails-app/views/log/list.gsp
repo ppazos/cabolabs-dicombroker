@@ -11,7 +11,7 @@
     <r:require modules="blockUI" />
     <g:javascript>
      $(function() {
-       $(".step, .nextLink, .prevLink").live("click", function(event){ 
+       $(".sortable>a, .step, .nextLink, .prevLink").live("click", function(event){ 
         event.preventDefault();
         $.get(event.target.href, function(data, textStatus, request){
             $("#listLogContent").html(data);

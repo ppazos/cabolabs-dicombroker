@@ -140,7 +140,7 @@
             {
               $('#app-destination').show();
               $('#email-destination').hide();
-              $('#dest_id').val(data['id']);     
+              $('#app_dest_id').val(data['id']);     
               $('#dest_url').val( $('#show_object_img').attr('src') );
             }
           }
@@ -360,7 +360,7 @@
           <div id="app-destination">
             <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
                 onSuccess="completedSend(data);" onFailure="completedSend(errorThrown);" after="\$.unblockUI();">
-              <g:hiddenField name="dest_id" />
+              <g:hiddenField name="app_dest_id" />
               <g:hiddenField name="dest_url" />
               <g:actionSubmit value="Send WADO URL" />
             </g:formRemote>
