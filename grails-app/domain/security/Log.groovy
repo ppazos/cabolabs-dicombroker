@@ -4,14 +4,14 @@ import security.User
 class Log {
     String controller
     String action
-    int user_id
+    User user
 
-    static transients = ['username']
+    static mapping = {
+      user lazy: false
+    }
     static constraints = {
       action inList: ['login', 'logout', 'search', 'send']
+      user nullable: false
     }
 
-    def getUsername() {
-      User.get(this.user_id).username
-    }
 }
