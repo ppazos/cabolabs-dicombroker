@@ -2,10 +2,10 @@
           <table>
             <thead>
               <tr>
-                <g:sortableColumn property="log" title="${message(code: 'log.log.label', default: 'Log')}" />
-                <g:sortableColumn property="email" title="${message(code: 'log.controller.label', default: 'Controller')}" />
-                <g:sortableColumn property="name" title="${message(code: 'log.action.label', default: 'Action')}" />
-                <g:sortableColumn property="name" title="${message(code: 'log.username.label', default: 'Username')}" />
+                <g:sortableColumn action="listContent" params="[userId: params.userId, actionLogSearch: params.actionLogSearch]" property="id" title="${message(code: 'log.log.label', default: 'Log')}" />
+                <g:sortableColumn action="listContent" params="[userId: params.userId, actionLogSearch: params.actionLogSearch]" property="controller" title="${message(code: 'log.controller.label', default: 'Controller')}" />
+                <g:sortableColumn action="listContent" params="[userId: params.userId, actionLogSearch: params.actionLogSearch]" property="action" title="${message(code: 'log.action.label', default: 'Action')}" />
+                <g:sortableColumn action="listContent" params="[userId: params.userId, actionLogSearch: params.actionLogSearch]"  property="username" title="${message(code: 'log.username.label', default: 'Username')}" />
               </tr>
             </thead>
             <tbody>
@@ -14,7 +14,7 @@
                   <td><g:link action="show" id="${logInstance.id}">${fieldValue(bean: logInstance, field: "id")}</g:link></td>
                   <td>${fieldValue(bean: logInstance, field: "controller")}</td>
                   <td>${fieldValue(bean: logInstance, field: "action")}</td>
-                  <td>${fieldValue(bean: logInstance, field: "username")}</td>
+                  <td>${fieldValue(bean: logInstance, field: "user.username")}</td>
                 </tr>
               </g:each>
             </tbody>

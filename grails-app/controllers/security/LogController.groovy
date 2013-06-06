@@ -25,7 +25,7 @@ class LogController {
         if(params.actionLogSearch)
           eq('action', params.actionLogSearch)
         if(params.userId)
-          eq('user_id', params.userId.toInteger())
+          user { idEq(params.userId.toLong()) }
       }
       render(template: "listContent", model: [logInstanceList: logsList, logInstanceTotal: logsList.totalCount])
     }

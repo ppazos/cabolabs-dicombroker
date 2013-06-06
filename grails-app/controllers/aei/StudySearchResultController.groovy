@@ -374,7 +374,7 @@ class StudySearchResultController {
     def sendToApp() {
       def text = ""
       try {
-        def appDestination = AppDestinationConfig.get(params.dest_id)
+        def appDestination = AppDestinationConfig.get(params.app_dest_id)
         def http = new HTTPBuilder("http://${appDestination.ip}:${appDestination.port}")
 
         http.request(GET, JSON) {
@@ -387,6 +387,7 @@ class StudySearchResultController {
       }
       catch (Exception e)
       {
+        println e.message
         text = message(code: 'default.error')
       }
       render text
