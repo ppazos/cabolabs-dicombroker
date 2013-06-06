@@ -1,8 +1,9 @@
 dataSource {
    pooled = true
-   driverClassName = "org.hsqldb.jdbcDriver"
+   driverClassName = "org.h2.Driver"
    username = "sa"
    password = ""
+   // logSql = true -> uncomment this to log sql queries to the console
 }
 hibernate {
    cache.use_second_level_cache=true
@@ -14,26 +15,26 @@ environments {
    development {
       dataSource {
 		   //dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-         //url = "jdbc:hsqldb:mem:devDB"
+         url = "jdbc:h2:mem:devDb"
 			
          pooling = true
-         driverClassName = "com.mysql.jdbc.Driver"
+         //driverClassName = "com.mysql.jdbc.Driver"
 	      //url = "jdbc:mysql://localhost:3306/dicom-broker?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8"
          dbCreate = "create-drop"
-         username = "root"
-         password = "root"
+         //username = "root"
+         //password = "root"
       }
    }
    test {
       dataSource {
          dbCreate = "update"
-         url = "jdbc:hsqldb:mem:testDb"
+         url = "jdbc:h2:mem:testDb"
       }
    }
    production {
       dataSource {
          dbCreate = "update"
-         url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+         url = "jdbc:h2:file:prodDb;shutdown=true"
       }
    }
 }
