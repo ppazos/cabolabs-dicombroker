@@ -40,9 +40,18 @@ public class AeRegistry {
         remoteWADOPort(nullable:false)
         remoteWADOPath(nullable:true, blank:true)
 
-        remoteDomain validator: { val, obj ->
-          if(obj.remoteIP != InetAddress.getByName(val).getHostAddress())
+        // Valid remote host
+        remoteDomain validator: { host, obj ->
+        
+          def ip
+          try {
+            ip = InetAddress.getByName(host)
+          }
+          catch (UnknownHostException e) { // Host cant be reached
             return false
+          }
+          
+          if(obj.remoteIP != ip.getHostAddress()) return false
         }
     }
 }
