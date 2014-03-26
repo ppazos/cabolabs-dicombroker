@@ -59,7 +59,7 @@ input:focus, select:focus, textarea:focus {
     margin: 0 15px 10px 15px;
 }
 
-/* NAVIGATION MENU */
+/* NAVIGATION MENU : leave this style to bootstrap
 
 .nav {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
@@ -68,6 +68,7 @@ input:focus, select:focus, textarea:focus {
     margin-top: 5px;
     padding: 7px 12px;
 }
+*/
 
 .menuButton {
     font-size: 10px;
