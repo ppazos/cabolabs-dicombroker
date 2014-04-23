@@ -48,10 +48,10 @@ public class AeRegistry {
             ip = InetAddress.getByName(host)
           }
           catch (UnknownHostException e) { // Host cant be reached
-            return false
+            return "host_cant_be_reached"
           }
           
-          if(obj.remoteIP != ip.getHostAddress()) return false
+          if(obj.remoteIP != ip.getHostAddress()) return "host_ip_doesnt_match_remoteIP"
         }
     }
 }
