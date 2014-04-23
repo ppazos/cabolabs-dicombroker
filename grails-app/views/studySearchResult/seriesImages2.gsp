@@ -41,11 +41,7 @@
 		    border-bottom: 1px solid #ddd;
       }
            
-      #snd_img_frm {
-        display: none;
-      }
-
-      #show_send_frm {
+      #snd_img_frm, #sr_frm, #show_send_frm {
         display: none;
       }
 
@@ -69,7 +65,6 @@
       div.growlUI h1, div.growlUI h2 {
         color: white; padding: 5px 5px 5px 75px; text-align: left
       }
- 
     </style>
   </head>
   <body>
@@ -82,11 +77,16 @@
       // when chosing an object to show, displays it according to
       // its class ('SR' or 'image')
       $('a.wado_url').click( function(){
+      
+        console.log("a.wado_url click");
+      
         $('#show_send_frm').show();
+        
         if ($(this).hasClass('SR'))
         {
           $('#show_object_img').hide();
           $('#snd_img_frm').hide();
+          $("#sr_frm").hide();
 
           $('#show_object_iframe').attr('src', this.href);
           $('#show_object_iframe').show();
@@ -99,6 +99,14 @@
 
           $('#show_send_frm').show();
           $('#snd_img_frm').find('[name=wado-url]').val(this.href);
+          
+          // For creating SRs
+          $("#sr_frm").show();
+          
+          // Object UID needed to reference the image from the SR
+          console.log( $(this).data("object_uid") );
+          
+          $("[name=object_uid]", "#sr_frm").val( $(this).data("object_uid") );
         }
       });
 
@@ -112,6 +120,7 @@
             width: '800px' 
           } 
         });
+         $('.blockOverlay').click($.unblockUI); // close on overlay click
       });
 
       
@@ -181,7 +190,7 @@
             </tr>
           </thead>
           <tbody>
-			<%-- modifico el codigo para ver solo el estudio seleccionado
+			   <%-- modifico el codigo para ver solo el estudio seleccionado
             <g:each in="${studies}" status="i" var="study">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}" style="${(study.id.toString()==params.id) ? 'font-weight: bold' : ''}">
                 <td>${study.id}</td>
@@ -198,68 +207,67 @@
                 </td>
               </tr>
             </g:each>
-			--%>
-			<tr>
-                <td>${selectedStudy.id}</td>
-                <td>${selectedStudy.patientName}</td>
-                <td>${selectedStudy.studyDescription}</td>
-                <td>${selectedStudy.studyDate}</td>
-                <td>${selectedStudy.modalitiesInStudy}</td>
-                <td>${selectedStudy.studyId}</td>
-                <td>${selectedStudy.seriesNumber}</td>
-                <td>${selectedStudy.imagesNumber}</td>
-                <td>${selectedStudy.source.description}</td>
-                <td>
-                  <g:link action="studySeries2" id="${selectedStudy.id}"><g:message code="studySeries2.action.series" /></g:link>
-                </td>
-              </tr>
+			   --%>
+			   <tr>
+              <td>${selectedStudy.id}</td>
+              <td>${selectedStudy.patientName}</td>
+              <td>${selectedStudy.studyDescription}</td>
+              <td>${selectedStudy.studyDate}</td>
+              <td>${selectedStudy.modalitiesInStudy}</td>
+              <td>${selectedStudy.studyId}</td>
+              <td>${selectedStudy.seriesNumber}</td>
+              <td>${selectedStudy.imagesNumber}</td>
+              <td>${selectedStudy.source.description}</td>
+              <td>
+                <g:link action="studySeries2" id="${selectedStudy.id}"><g:message code="studySeries2.action.series" /></g:link>
+              </td>
+            </tr>
           </tbody>
         </table>
-        
-         <table class="center_td">
-           <thead>
-             <tr><!--  TODO: i18n ! -->
-               <th><g:message code="dicom.tag.80060" /></th>
-               <th><g:message code="dicom.tag.8103e" /></th>
-               <%--
+        <table class="center_td">
+          <thead>
+            <tr><!--  TODO: i18n ! -->
+              <th><g:message code="dicom.tag.80060" /></th>
+              <th><g:message code="dicom.tag.8103e" /></th>
+              <%--
                <th><g:message code="dicom.tag.20000d" /></th>
                <th><g:message code="dicom.tag.20000e" /></th>
-               --%>
-               <th><g:message code="dicom.tag.200011" /></th>
-               <th><g:message code="dicom.tag.201209" /></th>
-               <th><g:message code="studySearhcResult.label.actions" /></th>
-             </tr>
-           </thead>
-           <tbody>
-             <g:each in="${selectedStudy.series}" status="i" var="serie">
-               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}" style="${(serie.id.toString()==params.serieId) ? 'font-weight: bold' : ''}">
-                 <g:if test="${serie.id.toString() == params.serieId}">
-                   <g:set var="selectedSerie" value="${serie}" />
-                 </g:if>
-                 <td>${serie.modality}</td>
-                 <td>${serie.description}</td>
-                 <%--
+              --%>
+              <th><g:message code="dicom.tag.200011" /></th>
+              <th><g:message code="dicom.tag.201209" /></th>
+              <th><g:message code="studySearhcResult.label.actions" /></th>
+            </tr>
+          </thead>
+          <tbody>
+            <g:each in="${selectedStudy.series}" status="i" var="serie">
+              <tr class="${(i % 2) == 0 ? 'odd' : 'even'}" style="${(serie.id.toString()==params.serieId) ? 'font-weight: bold' : ''}">
+                <g:if test="${serie.id.toString() == params.serieId}">
+                  <g:set var="selectedSerie" value="${serie}" />
+                </g:if>
+                <td>${serie.modality}</td>
+                <td>${serie.description}</td>
+                <%--
                  <td>${result['20000d']}</td>
                  <td>${serie.serieUID}</td>
-                 --%>
-                 <td>${serie.number}</td>
-                 <td>${serie.elements}</td>
-                 <td>
-                   <g:if test="${serie.modality=='SR'}">
-                     <g:link action="seriesImages2"
-                             id="${selectedStudy.id}"
-                             params="[serieId: serie.id]"><g:message code="seriesImages2.action.SR" /></g:link>
-                   </g:if>
-                   <g:else>
-                     <g:link action="seriesImages2"
-                             id="${selectedStudy.id}"
-                             params="[serieId: serie.id]"><g:message code="seriesImages2.action.IMG" /></g:link>
-                   </g:else>
-                 </td>
-               </tr>
-             </g:each>
-           </tbody>
-         </table>
+                --%>
+                <td>${serie.number}</td>
+                <td>${serie.elements}</td>
+                <td>
+                  <g:if test="${serie.modality=='SR'}">
+                    <g:link action="seriesImages2"
+                            id="${selectedStudy.id}"
+                            params="[serieId: serie.id]"><g:message code="seriesImages2.action.SR" /></g:link>
+                  </g:if>
+                  <g:else>
+                    <g:link action="seriesImages2"
+                            id="${selectedStudy.id}"
+                            params="[serieId: serie.id]"><g:message code="seriesImages2.action.IMG" /></g:link>
+                  </g:else>
+                </td>
+              </tr>
+            </g:each>
+          </tbody>
+        </table>
         
         <div class="objects_div">
           <table class="center_td">
@@ -316,7 +324,7 @@
         </div>
         
         <!-- Enviar la URL de la imagen a un server externo -->
-        <g:link url="javascript:void(0)" elementId="show_send_frm">Send </g:link>
+        <g:link url="javascript:void(0)" elementId="show_send_frm">Send</g:link>
 
         <div id="snd_img_frm">
           <input type="hidden" name="wado-url" />
@@ -337,7 +345,6 @@
               </g:each>
             </ul> 
           </div>
-
 
           <div id="destination_details">
 
@@ -370,12 +377,33 @@
           <!-- <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a> -->
         </div>
         <div style="clear:both">
-
-        <!-- Para mostrar SRs -->
-        <iframe src="" id="show_object_iframe"></iframe>
+          <!-- Para mostrar SRs -->
+          <iframe src="" id="show_object_iframe"></iframe>
         
-        <!-- Para mostrar imagenes -->
-        <img src="" id="show_object_img" />
+          <!-- Para mostrar imagenes -->
+          <img src="" id="show_object_img" />
+          
+          <!-- Form para crear texto de informe -->
+          <script>
+          var completedCreateSR = function (data) {
+            console.log(data);
+          };
+          var completedCreateSRError = function (errorThrown) {
+        	   console.log(errorThrown);
+          };
+          </script>
+          <div id="sr_frm">
+            <h2>Radiology report</h2>
+            <g:formRemote name="srForm"
+                url="[controller:'report', action:'create']" 
+                onSuccess="completedCreateSR(data);"
+                onFailure="completedCreateSRError(errorThrown);">
+              <g:hiddenField name="object_uid" />
+              <g:textArea name="sr_text" />
+              <g:actionSubmit value="Create SR" />
+            </g:formRemote>
+          </div>
+        </div>
       </div>
     </div>
   </body>
