@@ -57,8 +57,7 @@ class BootStrap {
     if (!appDest1.save()) println "AppDest: " + appDest1.errors
 
     // PACS
-    AeRegistry pacs1 = new AeRegistry(
-                           "remoteAETitle":"DCM4CHEE",
+ /*    AeRegistry pacs1 = new AeRegistry(                           "remoteAETitle":"DCM4CHEE",
                            "remoteDomain": "tarmacit.zapto.org",
                            "remoteIP": "192.168.1.110",
                            "remotePort":11112,
@@ -66,26 +65,29 @@ class BootStrap {
                            "remoteWADOPath":"wado", // http://192.168.118.16:8080/wado?requestType....
                            "localAETitle":"QRSCUCHE",
                            //"localIP":"192.168.118.166",
-                           "localIP":"10.0.2.15",
+                           "localIP":"192.168.1.108",
                            "localPort":44445,
                            "description":"PACS Virtual")
     
     if (!pacs1.save()) println "PACS: " + pacs1.errors
+    */
          
-    /* este pacs ya no existe
-     AeRegistry pacs2 = new AeRegistry(
+    /* este pacs ya no existe */
+	 /* WARNING: remotePort tambien debe ser forwaded si esta detras de NAT*/
+    AeRegistry pacs2 = new AeRegistry(
         "remoteAETitle":"DCM4CHEE",
-        "remoteIP":"46.38.162.152",
-        "remotePort":11112,
+		  "remoteDomain": "ppazos.zapto.org",
+        "remoteIP": "186.50.234.7",
+        "remotePort": 11112,
         "remoteWADOPort":8080,
         "remoteWADOPath":"wado", // http://192.168.118.16:8080/wado?requestType....
         "localAETitle":"QRSCUCHE",
-        "localIP":"192.168.1.101",
+        "localIP":"192.168.1.108",
         "localPort":44445,
-        "description":"PACS ZorgGemak")
+        "description":"PACS VM")
 
-     if (!pacs2.save()) println "PACS: " + pacs2.errors
-     */
+    if (!pacs2.save()) println "PACS: " + pacs2.errors
+    
     /*         
      AeRegistry pacs3 = new AeRegistry(
         "remoteAETitle":"DCM4CHEE",
