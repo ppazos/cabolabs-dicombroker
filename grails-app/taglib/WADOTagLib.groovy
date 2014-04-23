@@ -46,7 +46,8 @@ class WADOTagLib {
         
         
         //out << response.encodeURL(scheme + url + "?" + params)
-        out << '<a href="'+ scheme + url + "?" + params + '" class="wado_url'+ ((attrs.clazz)?' '+attrs.clazz:'') +'" onclick="return false;">'
+        out << '<a href="'+ scheme + url + "?" + params + '" class="wado_url'+ ((attrs.clazz)?' '+attrs.clazz:'') +
+		         '" onclick="return false;" data-object_uid="'+ objectUid +'">'
         out << body()
         out << '</a>'
     }
