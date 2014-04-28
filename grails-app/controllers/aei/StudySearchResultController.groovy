@@ -136,6 +136,9 @@ class StudySearchResultController {
                         null, //params.studyDateTo_month   as Integer,
                         null //params.studyDateTo_day     as Integer
                     )
+						  
+						  println "= = = = = = = = = = = = = = = = = ="
+						  println results
                     
                     // Marco como que no hubo error para este pacs
                     pacsErrors[pacs] = false
@@ -181,16 +184,17 @@ class StudySearchResultController {
                                  */
                                 def ssres = new StudySearchResult
                                 (
-                                    patientName:  result['100010'], // 100010 => MISTER^CT
+                                    patientName:       result['100010'], // 100010 => MISTER^CT
                                     //patientId:    patientId, //result['100020'], // FIXME: hacer que el id que se guarda sea el del partySelf del episodio, asi tengo vinculados los resutlados al episodio.
-                                    patientId:    result['100020'],
-                                    birthDate:    result['100030'],
-                                    sex:          result['100040'],
-                                    studyDate:    result['80020'],
-                                    studyId:      result['200010'],
-                                    seriesNumber: result['201206'],
-                                    imagesNumber: result['201208'],
-                                    studyDescription: result['81030'],
+                                    patientId:         result['100020'],
+                                    birthDate:         result['100030'],
+                                    sex:               result['100040'],
+                                    studyDate:         result['80020'],
+                                    studyId:           result['200010'],
+												studyUID:          result['20000d'],
+                                    seriesNumber:      result['201206'],
+                                    imagesNumber:      result['201208'],
+                                    studyDescription:  result['81030'],
                                     modalitiesInStudy: result['80061'],
                                     source:       pacs // Desde que PACS se obtuvo el resultado
                                 )

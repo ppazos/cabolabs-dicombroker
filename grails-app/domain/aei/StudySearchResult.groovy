@@ -28,7 +28,8 @@ class StudySearchResult {
     String studyId
     
     // 20000d, no viene en la consulta a nivel de estudio en CCServer, pero si a nivel de serie, lo meto en la serie.
-    //String studyUID
+	 // En cambio si viene en DCM4CHEE.
+    String studyUID
     
     // 201202 => 2
     int seriesNumber
@@ -51,6 +52,7 @@ class StudySearchResult {
     static constraints = {
        sex(nullable:true)
        birthDate(nullable:true)
+		 studyUID(nullable:true)
        studyDate(nullable:true) // este dato deberia venir siempre del PACS, verificar que se tiene en el QR.
        studyDescription(nullable:true)
     }
