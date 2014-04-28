@@ -107,6 +107,8 @@
           console.log( $(this).data("object_uid") );
           
           $("[name=object_uid]", "#sr_frm").val( $(this).data("object_uid") );
+          $("[name=study_uid]",  "#sr_frm").val( $(this).data("study_uid") );
+          $("[name=series_uid]", "#sr_frm").val( $(this).data("series_uid") );
         }
       });
 
@@ -398,6 +400,8 @@
                 url="[controller:'report', action:'create']" 
                 onSuccess="completedCreateSR(data);"
                 onFailure="completedCreateSRError(errorThrown);">
+              <g:hiddenField name="study_uid" />
+              <g:hiddenField name="series_uid" />
               <g:hiddenField name="object_uid" />
               <g:textArea name="sr_text" />
               <g:actionSubmit value="Create SR" />
