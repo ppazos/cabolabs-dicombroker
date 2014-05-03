@@ -46,4 +46,13 @@ grails.project.dependency.resolution = {
       compile ":spring-security-core:1.2.7.3"
       compile ":spring-security-ui:0.2"
    }
+	
+	dependencies {
+		runtime('ca.uhn.hapi:hapi-base:2.2') {
+			
+		}
+		runtime('ca.uhn.hapi:hapi-structures-v231:2.2') {
+		
+	   }
+	}
 }
