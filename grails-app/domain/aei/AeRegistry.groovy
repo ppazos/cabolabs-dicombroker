@@ -24,6 +24,9 @@ public class AeRegistry {
     int    remoteWADOPort   // Puerto en el que escucha el manejador WADO remoto
     String remoteWADOPath   // Path de la url, ip:port/path
     
+	 // HL7 Service should be published on the same remoteIP but using this port
+	 int hl7ServicePort
+	 
     String description // Descripcion de texto libre para multiuso.
     
     boolean active = true   // Se pone el false si se intenta conectar pero no esta accesible
