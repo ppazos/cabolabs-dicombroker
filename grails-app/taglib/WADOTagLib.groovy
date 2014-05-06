@@ -12,19 +12,22 @@ class WADOTagLib {
      * String contentType: opcional 
      */
     def wadoUrl = { attrs, body ->
-    
+       
+        if (!attrs.reg) throw new Exception("reg es obligatorio")
+        
         // no pueden ser vacios
         def studyUid = attrs.studyUid
         def seriesUid = attrs.seriesUid
         def objectUid = attrs.objectUid
-        def contentType = "application/dicom"
-        
-        // puede venir otra cosa como image/jpeg
-        if (attrs.contentType) contentType = attrs.contentType
         
         if(!studyUid) throw new Exception("studyUid es obligatorio")
         if(!seriesUid) throw new Exception("seriesUid es obligatorio")
         if(!objectUid) throw new Exception("objectUid es obligatorio")
+        
+        // puede venir otra cosa como image/jpeg
+        def contentType = "application/dicom"
+        if (attrs.contentType) contentType = attrs.contentType
+        
         
         def scheme = "http://"
         if (attrs.reg.remoteWADOPort == 443) scheme = "https://"
@@ -38,7 +41,7 @@ class WADOTagLib {
         
         if (attrs.frameNumber) params += "&frameNumber="+ attrs.frameNumber
                      
-        if (!attrs.reg) throw new Exception("reg es obligatorio")
+        
         //url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
         url = attrs.reg.remoteDomain ? attrs.reg.remoteDomain : attrs.reg.remoteIP
         url = url + ":" + attrs.reg.remoteWADOPort
@@ -48,7 +51,7 @@ class WADOTagLib {
         //out << response.encodeURL(scheme + url + "?" + params)
         out << '<a href="'+ scheme + url + "?" + params + '" class="wado_url'+ ((attrs.clazz)?' '+attrs.clazz:'') +
 		         '" onclick="return false;" data-object_uid="'+ objectUid +
-					'" data-study_uid="'+ studyUid +'" data-series_uid="'+ seriesUid +'">'
+					'" data-study_uid="'+ studyUid +'" data-series_uid="'+ seriesUid +'" data-pacs_id="'+ attrs.reg.id +'">'
         out << body()
         out << '</a>'
     }

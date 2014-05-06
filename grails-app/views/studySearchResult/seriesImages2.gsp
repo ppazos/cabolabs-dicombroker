@@ -109,6 +109,7 @@
           $("[name=object_uid]", "#sr_frm").val( $(this).data("object_uid") );
           $("[name=study_uid]",  "#sr_frm").val( $(this).data("study_uid") );
           $("[name=series_uid]", "#sr_frm").val( $(this).data("series_uid") );
+          $("[name=pacs_id]", "#sr_frm").val( $(this).data("pacs_id") );
         }
       });
 
@@ -164,7 +165,6 @@
     function completedSend( message ) {
       $.growlUI('Action Completed', message); 
     }
-
     </g:javascript>
 
     <div class="nav">
@@ -349,7 +349,6 @@
           </div>
 
           <div id="destination_details">
-
             <div id="email-destination">
               <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
                   onSuccess="completedSend(data)" onFailure="completedSend(errorThrown)" after="\$.unblockUI();">
@@ -377,7 +376,8 @@
 
           <!-- Ir a otra aplicacion una vez que envia la wado url -->
           <!-- <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a> -->
-        </div>
+        </div><!-- snd_img_frm -->
+        
         <div style="clear:both">
           <!-- Para mostrar SRs -->
           <iframe src="" id="show_object_iframe"></iframe>
@@ -389,9 +389,14 @@
           <script>
           var completedCreateSR = function (data) {
             console.log(data);
+            if (data.status == "ok")
+               $.growlUI('SR Sent', data.message); 
+            else
+               $.growlUI('SR Sending Error', data.message); 
           };
           var completedCreateSRError = function (errorThrown) {
         	   console.log(errorThrown);
+        	   $.growlUI('SR Sending Error', errorThrown); 
           };
           </script>
           <div id="sr_frm">
@@ -403,6 +408,7 @@
               <g:hiddenField name="study_uid" />
               <g:hiddenField name="series_uid" />
               <g:hiddenField name="object_uid" />
+              <g:hiddenField name="pacs_id" />
               <g:textArea name="sr_text" />
               <g:actionSubmit value="Create SR" />
             </g:formRemote>

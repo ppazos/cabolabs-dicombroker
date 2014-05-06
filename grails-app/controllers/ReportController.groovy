@@ -17,7 +17,7 @@ import aei.AeRegistry
 class ReportController {
 
    /* */
-   def create(String study_uid, String series_uid, String object_uid, String sr_text) {
+   def create(String study_uid, String series_uid, String object_uid, String sr_text, int pacs_id) {
       
       if (!study_uid)
       {
@@ -45,8 +45,11 @@ class ReportController {
       
       // TODO: crear el mensaje en un job y schedulear el envío aquí
       // TODO: crear el mensaje utilizando HAPI
-      // TODO: scape caracters en sr_text
-      // TODO: agregar history y conclusions como textareas en al gui
+      
+      // Escape caracters en sr_text
+      sr_text = sr_text.replaceAll("[\n\r]", "\\.br\\")
+      
+      // TODO: agregar history y conclusions como textareas en al gui (?)
       
       String msg = "MSH|^~\\&|MESA_RPT_MGR|EAST_RADIOLOGY|REPOSITORY|XYZ|||ORU^R01|${randomInt()}|P|2.3.1\r" +
                    "PID|1||${res.patientId}||${res.patientName}|||||||||||||123456444\r" +
@@ -56,9 +59,9 @@ class ReportController {
                    "OBX|2|HD|^Series Instance UID||${series_uid}||||||F\r"+
                    "OBX|3|HD|^SOP Instance UID||${object_uid}||||||F\r"+
                    "OBX|4|HD|d^SR Instance UID||1.3.51.0.7.11111.22222.33333.${randomInt()}||||||F\r"+
-                   "OBX|5|TX|e^SR Text||History todo||||||F\r" +
-                   "OBX|6|TX|^SR Text||Findings ${sr_text}||||||F\r"+
-                   "OBX|7|TX|^SR Text||Conclusions cccccccccccccccccc||||||F"
+                   //"OBX|5|TX|e^SR Text||History todo||||||F\r" +
+                   "OBX|5|TX|^SR Text||Findings ${sr_text}||||||F" //\r"+
+                   //"OBX|7|TX|^SR Text||Conclusions cccccccccccccccccc||||||F"
       
       /*
       String msg = "MSH|^~\\&|HIS|RIH|EKG|EKG|199904140038||ADT^A01|12345|P|2.2\r" +
@@ -72,10 +75,14 @@ class ReportController {
       */
       println msg
       
-      // TODO: conexión y envío al PACS (hacer con HAPI!)
+
+      // El PACS al que enviar el SR debe ser el mismo donde esta la imagen
+      // que se informa.
+      AeRegistry pacs = AeRegistry.get(pacs_id)
       
-      // TODO: el PACS al que enviar el SR debe ser el mismo donde esta la imagen que se informa
-      // HAPI
+      
+      // Conexión y envío al PACS con HAPI
+      // TODO: guardar el envio como log que luego pueda listarse
       
       // server
       //ca.uhn.hl7v2.HapiContext ctx = new ca.uhn.hl7v2.DefaultHapiContext()
@@ -84,8 +91,7 @@ class ReportController {
       // client
       HapiContext context = new DefaultHapiContext()
       
-      // Sacar de AeRegistry
-      AeRegistry pacs = AeRegistry.first() // Get By Params
+      
       Connection connection = context.newClient(pacs.remoteIP, pacs.hl7ServicePort, false)
       
       // The initiator is used to transmit unsolicited messages
@@ -95,11 +101,12 @@ class ReportController {
       Message msgh = p.parse(msg)
       Message response = initiator.sendAndReceive(msgh)
       
+      // TODO: guardar la respuesta como log que luego pueda listarse
       String responseString = p.encode(response)
       println "Received response:\n" + responseString
       // /client
       
-      render(text: '{"message":"TODO create SR", "status":"ok"}', contentType: "application/json", encoding: "UTF-8")
+      render(text: '{"message":"SR was sent to the PACS", "status":"ok"}', contentType: "application/json", encoding: "UTF-8")
       return
    }
    
