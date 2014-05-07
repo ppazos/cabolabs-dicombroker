@@ -367,31 +367,33 @@ class AeiService {
                     }
                     catch( Exception e)
                     {
-                        println "=== countItems "+ elem.countItems()
-						println "=== hasItems: " + elem.hasItems()
-						
-						println "=== hasFragments: " + elem.hasFragments()
-						println "=== hasDicomObjects: " + elem.hasDicomObjects()
-						
-						println "=== length: " + elem.length()
-						println "=== isEmpty: " + elem.isEmpty()
-                        println "AeiService EXCEPTION: " + e.getMessage() 
-						if (elem.hasFragments())
-						{
-							for (int i=0; i<elem.countItems(); i++)
-							{
-								map[ Integer.toHexString(elem.tag()) ] = new String( elem.getFragment(i) ).trim()
-							}
-						}
-						else if (!elem.isEmpty()) // si le pongo elem.hasDicomObjects() me da true y cuando pido el objeto es null.
-						{
-							// FIXME: como proceso el nuevo DicomObject? tiene que ser recursivo?
-							// Este es un caso que el dicomobject no tiene elements, si no que tiene otro dicomobject adentro.
-							DicomObject o2 = elem.getDicomObject() // puede tener mas de uno
-							println "Objeto del elem: " + o2
-							println "Cantidad de elementos del objeto: " + o2.size()
-							println "==================================================="
-						}
+                        /*
+                        println "=== countItems "+ elem.countItems()             // 0
+      						println "=== hasItems: " + elem.hasItems()               // true
+      						
+      						println "=== hasFragments: " + elem.hasFragments()       // false
+      						println "=== hasDicomObjects: " + elem.hasDicomObjects() // true
+      						
+      						println "=== length: " + elem.length()                   // 0
+      						println "=== isEmpty: " + elem.isEmpty()                 // true
+                        println "AeiService EXCEPTION: " + e.getMessage() + " " + e.printStackTrace()
+                        */
+      						if (elem.hasFragments())
+      						{
+      							for (int i=0; i<elem.countItems(); i++)
+      							{
+      								map[ Integer.toHexString(elem.tag()) ] = new String( elem.getFragment(i) ).trim()
+      							}
+      						}
+      						else if (!elem.isEmpty()) // si le pongo elem.hasDicomObjects() me da true y cuando pido el objeto es null.
+      						{
+      							// FIXME: como proceso el nuevo DicomObject? tiene que ser recursivo?
+      							// Este es un caso que el dicomobject no tiene elements, si no que tiene otro dicomobject adentro.
+      							DicomObject o2 = elem.getDicomObject() // puede tener mas de uno
+      							println "Objeto del elem: " + o2
+      							println "Cantidad de elementos del objeto: " + o2.size()
+      							println "==================================================="
+      						}
                     }
                 } // while iter.hasNext
                 

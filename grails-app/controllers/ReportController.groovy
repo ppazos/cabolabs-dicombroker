@@ -47,7 +47,10 @@ class ReportController {
       // TODO: crear el mensaje utilizando HAPI
       
       // Escape caracters en sr_text
-      sr_text = sr_text.replaceAll("[\n\r]", "\\.br\\")
+      sr_text = sr_text.replaceAll("\r\n", "\\\\.br\\\\") // Windows Enter
+      sr_text = sr_text.replaceAll("\n", "\\\\.br\\\\") // Unix Enter
+      
+      println sr_text
       
       // TODO: agregar history y conclusions como textareas en al gui (?)
       
