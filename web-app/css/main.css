@@ -21,7 +21,11 @@ a:link, a:visited, a:hover {
     color: #666;
     font-weight: bold;
     text-decoration: none;
-} 
+}
+
+a.active {
+	text-decoration: underline;
+}
 
 h1 {
     color: #006dba;
