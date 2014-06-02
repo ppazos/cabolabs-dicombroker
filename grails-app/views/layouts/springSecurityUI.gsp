@@ -215,6 +215,10 @@
             <li><g:link action='providers' controller='securityInfo'><g:message code='spring.security.ui.menu.appinfo.providers'/></g:link></li>
             </ul>
           </li>
+          
+          <li>
+            <g:link controller="user" action="pacsSecurity"><g:message code="spring.security.ui.menu.pacsSecurity"/></g:link>
+          </li>
         </ul>
   
         <div id='s2ui_header_body'>
