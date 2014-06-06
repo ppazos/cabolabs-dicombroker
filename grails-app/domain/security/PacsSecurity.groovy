@@ -13,9 +13,14 @@ class PacsSecurity implements Serializable  {
    Date dateCreated
    
    static mapping = {
-      autoTimestamp false
+      autoTimestamp true
       id composite: ['pacs', 'user']
       version false
+   }
+   
+   static boolean exists(User user, AeRegistry pacs)
+   {
+      return PacsSecurity.countByUserAndPacs(user, pacs) != 0
    }
    
    
