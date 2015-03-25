@@ -42,9 +42,13 @@ class WADOTagLib {
         if (attrs.frameNumber) params += "&frameNumber="+ attrs.frameNumber
                      
         
-        //url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
-        url = attrs.reg.remoteDomain ? attrs.reg.remoteDomain : attrs.reg.remoteIP
-        url = url + ":" + attrs.reg.remoteWADOPort
+        url = attrs.reg.remoteIP + ":" + attrs.reg.remoteWADOPort
+        
+        // Si el dominio del PACS esta seteado en hosts y se accede al dicom broker desde otra IP, a ese cliente le
+        // llega el dominio del hosts que es local, y no hay forma de saber si el dominio es de internet o local,
+        // a no ser que se defina una convension de nombres ej. localhost.pacs Por ahora dejo que vaya la IP en la URL.
+        //url = attrs.reg.remoteDomain ? attrs.reg.remoteDomain : attrs.reg.remoteIP
+        //url = url + ":" + attrs.reg.remoteWADOPort
         if (attrs.reg.remoteWADOPath) url += "/" + attrs.reg.remoteWADOPath
         
         
