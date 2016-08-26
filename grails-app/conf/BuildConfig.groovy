@@ -19,7 +19,7 @@ grails.project.dependency.resolution = {
     repositories {
       //mavenRepo 'http://myhost/nexus/content/groups/public' // local repo
       //grailsRepo "http://plugins.grails.org/"
-		
+		mavenRepo "http://repo.grails.org/grails/repo/"
       grailsPlugins()
       grailsHome()
       grailsCentral()
