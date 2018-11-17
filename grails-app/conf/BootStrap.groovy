@@ -76,14 +76,14 @@ class BootStrap {
 	 /* WARNING: remotePort tambien debe ser forwaded si esta detras de NAT*/
     AeRegistry pacs2 = new AeRegistry(
         "remoteAETitle":"DCM4CHEE",
-		  "remoteDomain": "remote.dcm4chee", // put this in your hosts file if you dont have a domain
-        "remoteIP": "192.168.1.111",
+        "remoteDomain": "remote.dcm4chee", // put this in your hosts file if you dont have a domain
+        "remoteIP": "192.168.1.107",
         "remotePort": 11112,
         "remoteWADOPort":8080,
-		  "hl7ServicePort": 2575,
+        "hl7ServicePort": 2575,
         "remoteWADOPath":"wado", // http://192.168.118.16:8080/wado?requestType....
         "localAETitle":"QRSCUCHE",
-        "localIP":"192.168.1.100",
+        "localIP":"192.168.1.102",
         "localPort":44445,
         "description":"PACS VM")
 

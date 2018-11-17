@@ -1,15 +1,16 @@
 <html>
-  <%@ page import="org.codehaus.groovy.grails.plugins.PluginManagerHolder" %><%@ page import="security.PacsSecurity" %>  
+  <%-- <%@ page import="org.codehaus.groovy.grails.plugins.PluginManagerHolder" %>--%>
+  <%@ page import="security.PacsSecurity" %>
   <head>
     <meta name='layout' content='springSecurityUI'/>
     <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
     <title><g:message code="default.edit.label" args="[entityName]"/></title>
   </head>
-  
+
   <body>
-    
+
     <h3><g:message code="default.pacsSecurity.label" args="[entityName]"/></h3>
-    
+
     <g:form action="update" name='userEditForm' class="button-style">
       <table>
         <g:each in="${doctorList}" var="doctor">
@@ -27,7 +28,7 @@
         </g:each>
       </table>
     </g:form>
-    
+
     <script>
     $(document).ready(function() {
 
@@ -39,7 +40,7 @@
 
         console.log(userId, pacsId, this);
 
-         
+
         $.post("${createLink(action:'pacsSecurityUpdate')}",
                { userId: userId, pacsId: pacsId, hasPermission: hasPermission },
                function(a, b, c) {
@@ -58,6 +59,6 @@
       });
     });
     </script>
-  
+
   </body>
 </html>

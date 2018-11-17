@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package aei
 
@@ -9,7 +9,7 @@ import aei.AeiService
 import aei.AeRegistry
 import grails.converters.*
 
-@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.5.0-RC2' ) 
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.5.0-RC2' )
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
@@ -21,39 +21,39 @@ import static groovyx.net.http.Method.*
 class StudySearchResultController {
 
     def scaffold = aei.StudySearchResult
-    
+
     def aeiService
-    
-    
+
+
     /**
      * Envia la WADO URL de una imagen a otro servidor.
      */
-    def sendWadoUrl = {
-       
+    def sendWadoUrl() {
+
        println params
-       
+
        def text
-       
+
        //def url = new URL ("http://62.195.116.153/edafm-his/consultation")
        def url = new URL ("http://62.195.116.153/edafm-his/consultation?wado-url="+params.'wado-url')
        def conn
        def code
-       
+
        //String data = "wado-url="+params.'wado-url' // Si es get, no tiene body...
        //conn.doOutput = true
-       
+
        // Si es get, no tiene body...
        //Writer wr = new OutputStreamWriter(conn.outputStream)
        //wr.write(data)
        //wr.flush()
        //wr.close()
-       
+
        try
        {
           conn = url.openConnection()
           conn.setRequestMethod("GET")
           conn.connect()
-          code = conn.responseCode 
+          code = conn.responseCode
           if (code == 200)
           {
              text = conn.content.text // Leer de una conexion abierta se puede hacer una sola vez.
@@ -68,26 +68,26 @@ class StudySearchResultController {
           println e.toString()
           text = 'error: ' + e.toString() + " " + code
        }
-       
+
        println text
-       
+
        render text
     }
-    
-    
-    def index = {
+
+
+    def index() {
         redirect(action:'list')
     }
-    
-    def list = {
+
+    def list() {
 
         def studies = StudySearchResult.list(params)
         return [studies: studies]
     }
-    
-    
-    def search = {
-        
+
+
+    def search() {
+
         // Cuidado!: si patientId es null va a traer todos los estudios de todos los pacientes!
         //def patientId = params.patientId
         println params
@@ -97,15 +97,15 @@ class StudySearchResultController {
            redirect(action:'list', params:params)
            return
         }
-        
+
         def pacss = AeRegistry.list() // pacs configurados
         def pacsErrors = [:] // Se usa al final para saber si no se pudo conectar al pacs
-        
+
         pacss.each { pacs ->
-            
+
             if (pacs.active)
             {
-        
+
                 try {
                     /* busca a nivel de paciente. es para ver si el paciente esta en el pacs, no para obtener el estudio...
                     def results = aeiService.sendDICOMQuery1( pacs,
@@ -120,7 +120,7 @@ class StudySearchResultController {
                                   null //params.studyDateTo_day     as Integer
                               )
                     */
-                    
+
                     // FIXME: aunque le pase nombre y apellido, no los considera en la query...
                     // busca a nivel de estudio
                     def results = aeiService.sendDICOMQuery2(
@@ -136,19 +136,19 @@ class StudySearchResultController {
                         null, //params.studyDateTo_month   as Integer,
                         null //params.studyDateTo_day     as Integer
                     )
-						  
+
 						  println "= = = = = = = = = = = = = = = = = ="
 						  println results
-                    
+
                     // Marco como que no hubo error para este pacs
                     pacsErrors[pacs] = false
-                    
+
                     if (results.size() > 0)
                     {
                         results.each { result ->
-                        
+
                             println "   resutl: " + result
-                            
+
                             // No guardar un resultado que ya se obtuvo
                             def resExists = StudySearchResult.withCriteria {
                                /* Con esta condicion si la persona tenia dos estudios, solo encontraba uno...
@@ -159,7 +159,7 @@ class StudySearchResultController {
                                 //eq('patientId', patientId) // creo que solo con el studyId alcanza
                                 eq('studyId', result['200010']) // con studyId alcanza...
                             }
-                        
+
                             if (resExists.size() == 0)
                             {
                                 /*
@@ -198,29 +198,29 @@ class StudySearchResultController {
                                     modalitiesInStudy: result['80061'],
                                     source:       pacs // Desde que PACS se obtuvo el resultado
                                 )
-        
-                                
+
+
                                 // 17/04/2010
                                 // =======================================================
                                 // ==== NUEVO: busca tambien series por pedido del tutor
                                 // ==== de mostrar todas las series al seleccionar una.
                                 // =======================================================
-                                
+
                                 // TODO: si hay un error en la comunicacion aca, el estudio
                                 //       se queda sin series cuando en realidad tiene.
-                                
+
                                 println "--------------------------------------------------"
                                 println "--------------------------------------------------"
                                 println "---- BUSCANDO series para studyID: " + ssres.studyId
-                                
+
                                 def resultsSeries = aeiService.sendDICOMQuery3(
                                         pacs, // source
                                         ssres.studyId, // studyId
                                         null, // studyUID
                                         null ) // studyDate
-        
+
                                 resultsSeries.each { resultSerie ->
-                                    
+
                                     def seriessr = new SeriesSearchResult
                                     (
                                         modality:    resultSerie['80060'],
@@ -231,20 +231,20 @@ class StudySearchResultController {
                                         studyUID:    ((resultSerie['20000d']) ? resultSerie['20000d'] : result['20000d']),
                                         serieUID:    resultSerie['20000e']
                                     )
-                                    
+
                                     ssres.addToSeries( seriessr )
-                                    
+
                                     // TODO: salvar seriessr???
                                     //if (!seriessr.save() ....
                                 }
-                                
+
                                 println "---- FIN buscar series para studyID: " + ssres.studyId
                                 println "--------------------------------------------------"
                                 println "--------------------------------------------------"
-                                
+
                                 // =======================================================
                                 // =======================================================
-                                
+
                                 if (!ssres.save())
                                 {
                                     println "   Search: error al salvar result " + ssres.errors + "---------"
@@ -266,41 +266,41 @@ class StudySearchResultController {
                 {
                     println "   Search Exception: " + e.getMessage()
                     println e.printStackTrace()
-                    
+
                     // FIXME: para ver si anda mal el QR deberia tirar la except aca
                     //        pero la catchea adentro...
-                    
+
                     // Hubo error para este pacs
                     pacsErrors[pacs] = true
                 }
             } // if pacs.active
         } // foreach pacs
-        
+
         redirect(action:'list', params:params)
     }
-    
-    
-    def studySeries2 = {
-        
+
+
+    def studySeries2() {
+
 		// El estudio seleccionado tiene las series adentro.
         def selectedStudy = StudySearchResult.get( params.id )
-        
+
         return [selectedStudy: selectedStudy]
-       
+
     } // studySeries2
-    
-    
-    def seriesImages2 = {
-        
+
+
+    def seriesImages2() {
+
         def selectedStudy = StudySearchResult.get( params.id )
         def selectedSerie = SeriesSearchResult.get( params.serieId )
         def destinations = DestinationConfig.getAll()
-		
+
         println "=== seriesImages2 ==="
         println "=== selectedStudy: " + selectedStudy
         println "=== selectedSerie: " + selectedSerie
         println ""
-		
+
         // imagenes y reportes
         def objects = []
         try
@@ -316,14 +316,14 @@ class StudySearchResultController {
     			println e.getMessage()
 		    	println "======AAAA====="
         }
-        
+
         return [selectedStudy:  selectedStudy,
                 selectedSerie:  selectedSerie,
                 objects:        objects,
                 reg:            selectedStudy.source,
                 destinations:   destinations
         ]
-        
+
     } // seriesImages2
 
     // Returns the destination details
@@ -399,7 +399,7 @@ class StudySearchResultController {
 
 
     // Dummy action to receive request
-    def receiveFromApp() { 
+    def receiveFromApp() {
       println params
       render params as JSON
     }

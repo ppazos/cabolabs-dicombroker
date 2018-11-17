@@ -9,21 +9,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title><g:layoutTitle default="Grails"/></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
-		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
-		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
-		<link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+    <asset:link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <asset:link rel="shortcut icon" href="apple-touch-icon.png" type="image/x-icon" />
+    <asset:link rel="shortcut icon" href="apple-touch-icon-retina.png" type="image/x-icon" />
+
+    <asset:link rel="stylesheet" href="main.css" type="text/css" />
+    <asset:link rel="stylesheet" href="mobile.css" type="text/css" />
+
 		<g:layoutHead/>
-		<r:layoutResources />
-		
+
 		<!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-      
+
       <!-- ======================== Bootstrap core JavaScript ========================== -->
       <!-- Placed at the end of the document so the pages load faster -->
       <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    
+
       <!-- Latest compiled and minified JavaScript -->
       <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	</head>
@@ -39,7 +40,7 @@
 	          </button>
 	          <a class="navbar-brand" href="http://www.cabolabs.com"><img src="http://www.cabolabs.com/images/logo_min_2.png" alt="CaboLabs" class="img-responsive" /></a>
 	        </div>
-	      
+
 	         <div class="navbar-collapse collapse">
 	            <ul class="nav navbar-nav navbar-right">
 	               <li>
@@ -89,6 +90,5 @@
 
 		<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 		<g:javascript library="application"/>
-		<r:layoutResources />
 	</body>
 </html>

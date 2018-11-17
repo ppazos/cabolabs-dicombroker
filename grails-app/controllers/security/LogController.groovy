@@ -30,7 +30,7 @@ class LogController {
       render(template: "listContent", model: [logInstanceList: logsList, logInstanceTotal: logsList.totalCount])
     }
 
-    def search = {
+    def search() {
         if (!params.controller && !params.action && !params.userName)
         {
            flash.message = 'Please specify a search criteria'

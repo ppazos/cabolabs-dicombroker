@@ -1,12 +1,17 @@
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'security.User'
-grails.plugins.springsecurity.authority.className = 'security.Role'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'security.UserRole'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'security.User'
+grails.plugin.springsecurity.authority.className = 'security.Role'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'security.UserRole'
 
-import grails.plugins.springsecurity.SecurityConfigType
-grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
-grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
-grails.plugins.springsecurity.interceptUrlMap = [
+import grails.plugin.springsecurity.SecurityConfigType
+grails.plugin.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
+grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+grails.plugin.springsecurity.interceptUrlMap = [
+ '/login/index': ['permitAll'],
+ '/login/auth': ['permitAll'],
+
+ '/dashboard/**':  ['ROLE_GODLIKE','ROLE_ADMIN'],
+
  '/user/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
  '/role/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
 
@@ -19,12 +24,12 @@ grails.plugins.springsecurity.interceptUrlMap = [
  '/log/**':               ['ROLE_GODLIKE','ROLE_ADMIN']
 ]
 
-grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
-grails.plugins.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/dashboard"
+grails.plugin.springsecurity.successHandler.alwaysUseDefault = true
+grails.plugin.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = "/dashboard"
 
-grails.plugins.springsecurity.useSecurityEventListener = true
-grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
+grails.plugin.springsecurity.useSecurityEventListener = true
+grails.plugin.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx ->
   // println "============ interactive authentication success ========"
 }
 
@@ -112,5 +117,3 @@ grails {
             ]
   }
 }
-
-

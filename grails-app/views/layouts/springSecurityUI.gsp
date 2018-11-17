@@ -1,23 +1,25 @@
-<%@ page import="org.codehaus.groovy.grails.plugins.PluginManagerHolder" %>
-<%@ page import="org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils" %>
-<%@ page import="grails.plugins.springsecurity.SecurityConfigType" %>
-
+<%-- <%@ page import="org.codehaus.groovy.grails.plugins.PluginManagerHolder" %> --%>
+<%@ page import="grails.plugin.springsecurity.SpringSecurityUtils" %>
+<%@ page import="grails.plugin.springsecurity.SecurityConfigType" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-  
   <head>
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  
-  <title><g:layoutTitle default='Security Management Console'/></title>
-  
-  <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon"/>
-  
-  <s2ui:resources module='spring-security-ui' />
+    <meta charset="utf-8">
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><g:layoutTitle default='Security Management Console'/></title>
+
+    <asset:link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <s2ui:stylesheet src='spring-security-ui'/>
+
+    <!-- fixme: upgrade to https://github.com/grails-plugins/grails-spring-security-ui/blob/1.x/grails-app/views/layouts/springSecurityUI.gsp -->
   <%--
-  
+
   The 'resources' tag in SecurityUiTagLib renders these tags if you're not using the resources plugin:
-  
+
      <link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'reset.css',plugin:'spring-security-ui')}"/>
      <g:javascript library='jquery' plugin='jquery' />
      <jqui:resources />
@@ -29,16 +31,16 @@
      <link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'jquery.jdMenu.slate.css',plugin:'spring-security-ui')}"/>
      <link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'table.css',plugin:'spring-security-ui')}"/>
      <link rel="stylesheet" media="screen" href="${resource(dir:'css',file:'spring-security-ui.css',plugin:'spring-security-ui')}"/>
-  
+
   or these if you are:
-  
+
      <r:require module="spring-security-ui"/>
      <r:layoutResources/>
-  
+
   If you need to customize the resources, replace the <s2ui:resources> tag with
   the explicit tags above and edit those, not the taglib code.
   --%>
-  
+
   <%-- tab icons --%>
   <style>
   .icon_role {
@@ -63,14 +65,14 @@
   }
   </style>
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}" type="text/css">
-  
+
     <g:layoutHead/>
-  
+
     <!-- copied from main.gsp -->
-  
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        
+
     <!-- ======================== Bootstrap core JavaScript ========================== -->
     <!-- Spring Security tiene referencia a JQuery 1.8.3 FIXME!
     Placed at the end of the document so the pages load faster
@@ -92,7 +94,7 @@
            </button>
            <a class="navbar-brand" href="http://www.cabolabs.com"><img src="http://www.cabolabs.com/images/logo_min_2.png" alt="CaboLabs" class="img-responsive" /></a>
          </div>
-       
+
           <div class="navbar-collapse collapse">
              <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -135,11 +137,11 @@
           </div>
        </div>
     </nav>
-  
+
     <div>
       <div>
         <ul class="jd_menu jd_menu_slate">
-  
+
           <li><g:link action='index' controller='dashboard'>Home</g:link></li>
           <li><a class="accessible"><g:message code="spring.security.ui.menu.users"/></a>
             <ul>
@@ -173,7 +175,7 @@
               <li><g:link controller="registrationCode" action='search'><g:message code="spring.security.ui.search"/></g:link></li>
             </ul>
           </li>
-          <g:if test="${PluginManagerHolder.pluginManager.hasGrailsPlugin('springSecurityAcl')}">
+          <g:if test="${grails.util.Holders.pluginManager.hasGrailsPlugin('springSecurityAcl')}">
           <li><a class="accessible"><g:message code="spring.security.ui.menu.acl"/></a>
             <ul>
               <li><g:message code="spring.security.ui.menu.aclClass"/> &raquo;
@@ -215,18 +217,18 @@
             <li><g:link action='providers' controller='securityInfo'><g:message code='spring.security.ui.menu.appinfo.providers'/></g:link></li>
             </ul>
           </li>
-          
+
           <li>
             <g:link controller="user" action="pacsSecurity"><g:message code="spring.security.ui.menu.pacsSecurity"/></g:link>
           </li>
         </ul>
-  
+
         <div id='s2ui_header_body'>
-  
+
           <div id='s2ui_header_title'>
             Spring Security Management Console
           </div>
-  
+
           <!-- Ya se muestra en el nav
           <span id='s2ui_login_link_container'>
             <nobr>
@@ -237,7 +239,7 @@
                 <sec:ifNotLoggedIn>
                   <a href='#' id='loginLink'>Login</a>
                 </sec:ifNotLoggedIn>
-        
+
                 <sec:ifSwitched>
                 <a href='${request.contextPath}/j_spring_security_exit_user'>
                   Resume as <sec:switchedUserOriginalUsername/>
@@ -247,10 +249,10 @@
             </nobr>
           </span>
           -->
-           
+
         </div>
       </div>
-  
+
       <div id="s2ui_main">
         <div id="s2ui_content">
           <s2ui:layoutResources module='spring-security-ui' />
@@ -267,12 +269,12 @@
           --%>
         </div>
       </div>
-  
+
     </div>
-  
+
   <g:render template='/includes/ajaxLogin' plugin='spring-security-ui'/>
-  
+
   <s2ui:showFlash/>
-  
+
   </body>
 </html>

@@ -1,5 +1,5 @@
 package filters
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 import security.Log
 import security.User
 
