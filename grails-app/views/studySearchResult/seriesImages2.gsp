@@ -4,7 +4,8 @@
     <meta name="layout" content="main" />
     <title><g:message code="aei.studySearchResult.list.title" /></title>
 
-    <r:require modules="blockUI" />
+    <%--<r:require modules="blockUI" />--%>
+    <asset:javascript src="jquery.blockUI.js"/>
 
     <style>
       #show_object_iframe {
@@ -32,15 +33,15 @@
       #email-destination, #app-destination {
         display: none;
       }
-      
-      <%-- El alto deberia depender de la cantidad de items en objetos, 
+
+      <%-- El alto deberia depender de la cantidad de items en objetos,
            con 7 o menos, dejar alto automatico, con mas de 7 fijar en 160px --%>
       .objects_div {
         height: 110px;
         overflow: auto;
 		    border-bottom: 1px solid #ddd;
       }
-           
+
       #snd_img_frm, #sr_frm, #show_send_frm {
         display: none;
       }
@@ -77,11 +78,11 @@
       // when chosing an object to show, displays it according to
       // its class ('SR' or 'image')
       $('a.wado_url').click( function(){
-      
+
         console.log("a.wado_url click");
-      
+
         $('#show_send_frm').show();
-        
+
         if ($(this).hasClass('SR'))
         {
           $('#show_object_img').hide();
@@ -99,13 +100,13 @@
 
           $('#show_send_frm').show();
           $('#snd_img_frm').find('[name=wado-url]').val(this.href);
-          
+
           // For creating SRs
           $("#sr_frm").show();
-          
+
           // Object UID needed to reference the image from the SR
           console.log( $(this).data("object_uid") );
-          
+
           $("[name=object_uid]", "#sr_frm").val( $(this).data("object_uid") );
           $("[name=study_uid]",  "#sr_frm").val( $(this).data("study_uid") );
           $("[name=series_uid]", "#sr_frm").val( $(this).data("series_uid") );
@@ -118,16 +119,16 @@
       $('#show_send_frm').click( function() {
         $.blockUI( {
           message: $('#snd_img_frm'),
-          css: { 
-            left: ($(window).width() - 800) /2 + 'px', 
-            width: '800px' 
-          } 
+          css: {
+            left: ($(window).width() - 800) /2 + 'px',
+            width: '800px'
+          }
         });
          $('.blockOverlay').click($.unblockUI); // close on overlay click
       });
 
-      
-      // When selecting a destination to send the wado-url, 
+
+      // When selecting a destination to send the wado-url,
       // gets its data via ajax and shows the information in the modal dialog
       $('.dest-link').click( function() {
         var id = $(this).find('[name=dest-id]').val();
@@ -152,7 +153,7 @@
             {
               $('#app-destination').show();
               $('#email-destination').hide();
-              $('#app_dest_id').val(data['id']);     
+              $('#app_dest_id').val(data['id']);
               $('#dest_url').val( $('#show_object_img').attr('src') );
             }
           }
@@ -163,7 +164,7 @@
     // When the send image is completed (to an app or through email)
     // shows a growl notification indicating the result
     function completedSend( message ) {
-      $.growlUI('Action Completed', message); 
+      $.growlUI('Action Completed', message);
     }
     </g:javascript>
 
@@ -176,7 +177,7 @@
         <div class="message"><g:message code="${flash.message}" /></div>
       </g:if>
       <div class="list">
-        <table class="center_td">
+        <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th><g:message code="studySearhcResult.label.id" /></th>
@@ -270,7 +271,7 @@
             </g:each>
           </tbody>
         </table>
-        
+
         <div class="objects_div">
           <table class="center_td">
             <thead>
@@ -324,7 +325,7 @@
             </tbody>
           </table>
         </div>
-        
+
         <!-- Enviar la URL de la imagen a un server externo -->
         <g:link url="javascript:void(0)" elementId="show_send_frm">Send</g:link>
 
@@ -345,12 +346,12 @@
                   <g:link url="javascript:void(0)">${destination.name}</g:link>
                 </li>
               </g:each>
-            </ul> 
+            </ul>
           </div>
 
           <div id="destination_details">
             <div id="email-destination">
-              <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']" 
+              <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendEmail']"
                   onSuccess="completedSend(data)" onFailure="completedSend(errorThrown)" after="\$.unblockUI();">
                 <g:hiddenField name="dest_id" />
                 <input id="dest_name" name="dest_name">
@@ -366,7 +367,7 @@
           </div>
 
           <div id="app-destination">
-            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']" 
+            <g:formRemote name="wadoForm" url="[controller:'studySearchResult', action:'sendToApp']"
                 onSuccess="completedSend(data);" onFailure="completedSend(errorThrown);" after="\$.unblockUI();">
               <g:hiddenField name="app_dest_id" />
               <g:hiddenField name="dest_url" />
@@ -377,32 +378,32 @@
           <!-- Ir a otra aplicacion una vez que envia la wado url -->
           <!-- <a href="http://46.38.162.152:8090/patientinfo" target="_blank">Show patient</a> -->
         </div><!-- snd_img_frm -->
-        
+
         <div style="clear:both">
           <!-- Para mostrar SRs -->
           <iframe src="" id="show_object_iframe"></iframe>
-        
+
           <!-- Para mostrar imagenes -->
           <img src="" id="show_object_img" />
-          
+
           <!-- Form para crear texto de informe -->
           <script>
           var completedCreateSR = function (data) {
             console.log(data);
             if (data.status == "ok")
-               $.growlUI('SR Sent', data.message); 
+               $.growlUI('SR Sent', data.message);
             else
-               $.growlUI('SR Sending Error', data.message); 
+               $.growlUI('SR Sending Error', data.message);
           };
           var completedCreateSRError = function (errorThrown) {
         	   console.log(errorThrown);
-        	   $.growlUI('SR Sending Error', errorThrown); 
+        	   $.growlUI('SR Sending Error', errorThrown);
           };
           </script>
           <div id="sr_frm">
             <h2>Radiology report</h2>
             <g:formRemote name="srForm"
-                url="[controller:'report', action:'create']" 
+                url="[controller:'report', action:'create']"
                 onSuccess="completedCreateSR(data);"
                 onFailure="completedCreateSRError(errorThrown);">
               <g:hiddenField name="study_uid" />

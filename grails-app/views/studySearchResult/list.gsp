@@ -2,14 +2,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-	<meta name="layout" content="main" />
+    <meta name="layout" content="main" />
     <title><g:message code="aei.studySearchResult.list.title" /></title>
   </head>
   <body>
     <div class="body">
-    
+
       <h1><g:message code="aei.studySearchResult.list.title" /></h1>
-      
+
       <g:if test="${flash.message}">
         <div class="message">${flash.message}</div>
       </g:if>
@@ -25,9 +25,9 @@
 	      -->
 	      <input type="submit" name="doit" value="${message(code:'studySearchResult.list.action.search')}" />
       </g:form>
-      
+
       <div class="list">
-        <table class="center_td">
+        <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th><g:message code="studySearhcResult.label.id" /></th>

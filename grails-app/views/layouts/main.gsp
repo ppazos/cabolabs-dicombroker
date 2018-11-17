@@ -19,14 +19,16 @@
 		<g:layoutHead/>
 
 		<!-- Latest compiled and minified CSS -->
-      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
       <!-- ======================== Bootstrap core JavaScript ========================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
+      <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+		
       <!-- Latest compiled and minified JavaScript -->
-      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 	   <nav class="navbar navbar-default fixed-top" role="navigation">

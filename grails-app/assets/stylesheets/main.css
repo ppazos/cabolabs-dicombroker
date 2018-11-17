@@ -12,15 +12,15 @@ html * {
 }
 
 body {
-    background: #fff;
-    color: #333;
-    font: 11px verdana, arial, helvetica, sans-serif;
+  background: #fff;
+  color: #333;
+  font: 11px verdana, arial, helvetica, sans-serif;
 }
 
 a:link, a:visited, a:hover {
-    color: #666;
-    font-weight: bold;
-    text-decoration: none;
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 a.active {
@@ -28,25 +28,25 @@ a.active {
 }
 
 h1 {
-    color: #006dba;
-    font-weight: normal;
-    font-size: 16px;
-    margin: .8em 0 .3em 0;
+  color: #006dba;
+  font-weight: normal;
+  font-size: 16px;
+  margin: .8em 0 .3em 0;
 }
 
 ul {
-    padding-left: 15px;	
+  padding-left: 15px;
 }
 
 input, select, textarea {
-    background-color: #fcfcfc;
-    border: 1px solid #ccc;
-    font: 11px verdana, arial, helvetica, sans-serif;
-    margin: 2px 0;
-    padding: 2px 4px;
+  background-color: #fcfcfc;
+  border: 1px solid #ccc;
+  font: 11px verdana, arial, helvetica, sans-serif;
+  margin: 2px 0;
+  padding: 2px 4px;
 }
 select {
-   padding: 2px 2px 2px 0;
+  padding: 2px 2px 2px 0;
 }
 textarea {
 	width: 250px;
@@ -59,8 +59,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 .body {
-    float: left;
-    margin: 0 15px 10px 15px;
+  /*float: left;*/
+  margin: 0 15px 10px 15px;
 }
 
 /* NAVIGATION MENU : leave this style to bootstrap
@@ -68,7 +68,7 @@ input:focus, select:focus, textarea:focus {
 .nav {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;
-    border-style: solid none solid none;	
+    border-style: solid none solid none;
     margin-top: 5px;
     padding: 7px 12px;
 }
@@ -117,7 +117,7 @@ div.errors {
 }
 div.errors ul {
     list-style: none;
-    padding: 0;	
+    padding: 0;
 }
 div.errors li {
 	background: url(../images/skin/exclamation.png) 8px 0% no-repeat;
@@ -135,37 +135,41 @@ td.errors input {
 /* TABLES */
 
 table {
-    border: 1px solid #ccc;
-    width: 100%
+  /*
+  border: 1px solid #ccc;
+  width: 100%
+  */
 }
 tr {
-    border: 0;
+  /* border: 0; */
 }
-td, th { 
-    font: 11px verdana, arial, helvetica, sans-serif;
-    line-height: 12px;
-    padding: 5px 6px;
-    text-align: left;
-    vertical-align: top;
+td, th {
+  /*
+  font: 11px verdana, arial, helvetica, sans-serif;
+  line-height: 12px;
+  padding: 5px 6px;
+  text-align: left;
+  vertical-align: top;
+  */
 }
 th {
-    background: #fff url(../images/skin/shadow.jpg);
+    /*background: #fff url(../images/skin/shadow.jpg);*/
     color: #666;
-    font-size: 11px;
+    /*font-size: 11px;
     font-weight: bold;
     line-height: 17px;
-    padding: 2px 6px;
+    padding: 2px 6px;*/
 }
 th a:link, th a:visited, th a:hover {
-    color: #333;
-    display: block;
-    font-size: 10px;
-    text-decoration: none;
-    width: 100%;
+  color: #333;
+  display: block;
+  font-size: 10px;
+  text-decoration: none;
+  width: 100%;
 }
 th.asc a, th.desc a {
-    background-position: right;
-    background-repeat: no-repeat;
+  background-position: right;
+  background-repeat: no-repeat;
 }
 th.asc a {
     background-image: url(../images/skin/sorted_asc.gif);

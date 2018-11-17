@@ -255,7 +255,7 @@
 
       <div id="s2ui_main">
         <div id="s2ui_content">
-          <s2ui:layoutResources module='spring-security-ui' />
+          <%--<s2ui:layoutResources module='spring-security-ui' />--%>
           <g:layoutBody/>
           <%--
           <g:javascript src='jquery/jquery.jgrowl.js' plugin='spring-security-ui'/>

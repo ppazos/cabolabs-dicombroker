@@ -9,15 +9,15 @@
       <span class="menuButton"><g:link action="list" class="home">Home</g:link></span>
     </div>
     <div class="body">
-    
+
        <h1><g:message code="aei.studySearchResult.list.title" /></h1>
-       
+
        <g:if test="${flash.message}">
          <div class="message"><g:message code="${flash.message}" /></div>
        </g:if>
-       
+
        <div class="list">
-         <table class="center_td">
+         <table class="table table-bordered table-hover">
            <thead>
              <tr>
                <th><g:message code="studySearhcResult.label.id" /></th>
@@ -67,7 +67,7 @@
               </tr>
            </tbody>
          </table>
-         
+
          <table class="center_td">
            <thead>
              <tr>
