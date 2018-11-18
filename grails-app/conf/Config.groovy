@@ -10,10 +10,12 @@ grails.plugin.springsecurity.interceptUrlMap = [
  '/login/index': ['permitAll'],
  '/login/auth': ['permitAll'],
 
- '/dashboard/**':  ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/dashboard/**':         ['ROLE_GODLIKE','ROLE_ADMIN'],
 
- '/user/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
- '/role/**':             ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/user/**':              ['ROLE_GODLIKE','ROLE_ADMIN'],
+ '/role/**':              ['ROLE_GODLIKE','ROLE_ADMIN'],
+
+ '/report/**':            ['ROLE_GODLIKE','ROLE_ADMIN'],
 
  '/registrationCode/**':  ['ROLE_GODLIKE','ROLE_ADMIN'],
  '/securityInfo/**':      ['ROLE_GODLIKE','ROLE_ADMIN'],

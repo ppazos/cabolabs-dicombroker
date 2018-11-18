@@ -14,17 +14,29 @@
         <div class="message">${flash.message}</div>
       </g:if>
 
-      <g:form controller="studySearchResult" action="search">
-	      <g:message code="list.label.searchByPatientId" />:
-	      <input type="text" name="patientId" value="${params.patientId}" />
+      <g:form controller="studySearchResult" action="search" class="form-inline">
+        <div class="form-group">
+          <input type="text" name="patientId" class="form-control" placeholder="${message(code:'list.label.searchByPatientId')}"  value="${params.patientId}" />
+        </div>
+        <div class="form-group">
+          <input type="text" name="patientName" class="form-control" placeholder="${message(code:'list.label.searchByPatientName')}"  value="${params.patientName}" />
+        </div>
+        <div class="form-group">
+          <input type="text" name="patientLastname" class="form-control" placeholder="${message(code:'list.label.searchByPatientLastname')}"  value="${params.patientLastname}" />
+        </div>
+        <button type="submit" name="doit" class="btn btn-default">${message(code:'studySearchResult.list.action.search')}</button>
+
 	      <!-- FIXME: aunque le pase nombre y apellido, no los considera en la query AeiService.sendDICOMQuery2...
 	      <g:message code="list.label.searchByPatientName" />:
 	      <input type="text" name="patientName" value="${params.patientName}" />
 	      <g:message code="list.label.searchByPatientLastname" />:
 	      <input type="text" name="patientLastname" value="${params.patientLastname}" />
 	      -->
-	      <input type="submit" name="doit" value="${message(code:'studySearchResult.list.action.search')}" />
       </g:form>
+
+      <br />
+
+      <h2><g:message code="aei.studySearchResult.found.title" /></h2>
 
       <div class="list">
         <table class="table table-bordered table-hover">

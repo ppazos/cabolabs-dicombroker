@@ -10,16 +10,16 @@
     </div>
     <div class="body">
 
-       <h1><g:message code="aei.studySearchResult.list.title" /></h1>
+      <h1><g:message code="aei.studySearchResult.list.title" /></h1>
 
-       <g:if test="${flash.message}">
-         <div class="message"><g:message code="${flash.message}" /></div>
-       </g:if>
+      <g:if test="${flash.message}">
+        <div class="message"><g:message code="${flash.message}" /></div>
+      </g:if>
 
-       <div class="list">
-         <table class="table table-bordered table-hover">
-           <thead>
-             <tr>
+      <div class="list">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
                <th><g:message code="studySearhcResult.label.id" /></th>
                <th><g:message code="studySearhcResult.label.patientName" /></th>
                <th><g:message code="studySearhcResult.label.studyDescription" /></th>
@@ -31,9 +31,9 @@
                <th><g:message code="studySearhcResult.label.source" /></th>
                <th><g:message code="studySearhcResult.label.actions" /></th>
              </tr>
-           </thead>
-           <tbody>
-		    <%-- modifico el codigo para ver solo el estudio seleccionado
+          </thead>
+          <tbody>
+		        <%-- modifico el codigo para ver solo el estudio seleccionado
             <g:each in="${studies}" status="i" var="study">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}" style="${(study.id.toString()==params.id) ? 'font-weight: bold' : ''}">
                 <td>${study.id}</td>
@@ -50,66 +50,66 @@
                 </td>
               </tr>
              </g:each>
-			 --%>
-			 <tr>
-                <td>${selectedStudy.id}</td>
-                <td>${selectedStudy.patientName}</td>
-                <td>${selectedStudy.studyDescription}</td>
-                <td>${selectedStudy.studyDate}</td>
-                <td>${selectedStudy.modalitiesInStudy}</td>
-                <td>${selectedStudy.studyId}</td>
-                <td>${selectedStudy.seriesNumber}</td>
-                <td>${selectedStudy.imagesNumber}</td>
-                <td>${selectedStudy.source.description}</td>
-                <td>
-                  <g:link action="studySeries2" id="${selectedStudy.id}"><g:message code="studySeries2.action.series" /></g:link>
-                </td>
-              </tr>
-           </tbody>
-         </table>
+			      --%>
+			      <tr>
+              <td>${selectedStudy.id}</td>
+              <td>${selectedStudy.patientName}</td>
+              <td>${selectedStudy.studyDescription}</td>
+              <td>${selectedStudy.studyDate}</td>
+              <td>${selectedStudy.modalitiesInStudy}</td>
+              <td>${selectedStudy.studyId}</td>
+              <td>${selectedStudy.seriesNumber}</td>
+              <td>${selectedStudy.imagesNumber}</td>
+              <td>${selectedStudy.source.description}</td>
+              <td>
+                <g:link action="studySeries2" id="${selectedStudy.id}"><g:message code="studySeries2.action.series" /></g:link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-         <table class="center_td">
-           <thead>
-             <tr>
-               <th><g:message code="dicom.tag.80060" /></th>
-               <th><g:message code="dicom.tag.8103e" /></th>
-               <%-- UIDs study y series
-               <th><g:message code="dicom.tag.20000d" /></th>
-               <th><g:message code="dicom.tag.20000e" /></th>
-               --%>
-               <th><g:message code="dicom.tag.200011" /></th>
-               <th><g:message code="dicom.tag.201209" /></th>
-               <th><g:message code="studySearhcResult.label.actions" /></th>
-             </tr>
-           </thead>
-           <tbody>
-             <g:each in="${selectedStudy.series}" status="i" var="serie">
-               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                 <td>${serie.modality}</td>
-                 <td>${serie.description}</td>
-                 <%--
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th><g:message code="dicom.tag.80060" /></th>
+              <th><g:message code="dicom.tag.8103e" /></th>
+              <%-- UIDs study y series
+              <th><g:message code="dicom.tag.20000d" /></th>
+              <th><g:message code="dicom.tag.20000e" /></th>
+              --%>
+              <th><g:message code="dicom.tag.200011" /></th>
+              <th><g:message code="dicom.tag.201209" /></th>
+              <th><g:message code="studySearhcResult.label.actions" /></th>
+            </tr>
+          </thead>
+          <tbody>
+            <g:each in="${selectedStudy.series}" status="i" var="serie">
+              <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                <td>${serie.modality}</td>
+                <td>${serie.description}</td>
+                <%--
                  <td>${serie.studyUID}</td>
                  <td>${serie.serieUID}</td>
-                 --%>
-                 <td>${serie.number}</td>
-                 <td>${serie.elements}</td>
-                 <td>
-                   <g:if test="${serie.modality=='SR'}">
-                     <g:link action="seriesImages2"
-                             id="${selectedStudy.id}"
-                             params="[serieId: serie.id]"><g:message code="seriesImages2.action.SR" /></g:link>
-                   </g:if>
-                   <g:else>
-                     <g:link action="seriesImages2"
-                             id="${selectedStudy.id}"
-                             params="[serieId: serie.id]"><g:message code="seriesImages2.action.IMG" /></g:link>
-                   </g:else>
-                 </td>
-               </tr>
-             </g:each>
-           </tbody>
-         </table>
-       </div>
+                --%>
+                <td>${serie.number}</td>
+                <td>${serie.elements}</td>
+                <td>
+                  <g:if test="${serie.modality=='SR'}">
+                    <g:link action="seriesImages2"
+                            id="${selectedStudy.id}"
+                            params="[serieId: serie.id]"><g:message code="seriesImages2.action.SR" /></g:link>
+                  </g:if>
+                  <g:else>
+                    <g:link action="seriesImages2"
+                            id="${selectedStudy.id}"
+                            params="[serieId: serie.id]"><g:message code="seriesImages2.action.IMG" /></g:link>
+                  </g:else>
+                </td>
+              </tr>
+            </g:each>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

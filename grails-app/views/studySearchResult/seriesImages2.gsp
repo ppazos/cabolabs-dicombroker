@@ -166,12 +166,12 @@
     function completedSend( message ) {
       $.growlUI('Action Completed', message);
     }
-    </g:javascript>
+  </g:javascript>
 
-    <div class="nav">
-      <span class="menuButton"><g:link action="list" class="home">Home</g:link></span>
-    </div>
-    <div class="body">
+  <div class="nav">
+    <span class="menuButton"><g:link action="list" class="home">Home</g:link></span>
+  </div>
+  <div class="body">
       <h1><g:message code="aei.studySearchResult.list.title" /></h1>
       <g:if test="${flash.message}">
         <div class="message"><g:message code="${flash.message}" /></div>
@@ -227,7 +227,8 @@
             </tr>
           </tbody>
         </table>
-        <table class="center_td">
+
+        <table class="table table-bordered table-hover">
           <thead>
             <tr><!--  TODO: i18n ! -->
               <th><g:message code="dicom.tag.80060" /></th>
@@ -273,7 +274,7 @@
         </table>
 
         <div class="objects_div">
-          <table class="center_td">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr>
                 <%--<th><g:message code="dicom.tag.80018" /></th>--%>
@@ -410,8 +411,10 @@
               <g:hiddenField name="series_uid" />
               <g:hiddenField name="object_uid" />
               <g:hiddenField name="pacs_id" />
-              <g:textArea name="sr_text" />
-              <g:actionSubmit value="Create SR" />
+              <div class="form-group">
+                <g:textArea name="sr_text" class="form-control" />
+              </div>
+              <g:actionSubmit value="Create SR" class="btn btn-default pull-right" />
             </g:formRemote>
           </div>
         </div>
