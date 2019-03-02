@@ -77,7 +77,7 @@ class BootStrap {
     AeRegistry pacs2 = new AeRegistry(
         "remoteAETitle":"DCM4CHEE",
         "remoteDomain": "remote.dcm4chee", // put this in your hosts file if you dont have a domain
-        "remoteIP": "192.168.1.107",
+        "remoteIP": "192.168.1.105",
         "remotePort": 11112,
         "remoteWADOPort":8080,
         "hl7ServicePort": 2575,
