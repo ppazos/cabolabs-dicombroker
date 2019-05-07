@@ -16,16 +16,27 @@ import com.thoughtworks.xstream.XStream
  */
 class AeRegistryController {
 
-    def scaffold = aei.AeRegistry
+   def scaffold = aei.AeRegistry
 
-    def aeiService
-    //def pruebaService
+   def aeiService
+   //def pruebaService
 
-    def list() {
-        println "AeRegistryController.list"
-        def regs = AeRegistry.list( params )
-        [list: regs]
-    }
+   def list() {
+      def regs = AeRegistry.list( params )
+      [list: regs]
+   }
+
+   def edit(AeRegistry ae)
+   {
+      [ae: ae]
+   }
+
+   def update(AeRegistry ae)
+   {
+      ae.properties = params
+      ae.save()
+      redirect action: 'list'
+   }
 
     /**
      * Para hacer un Query/Retrieve.

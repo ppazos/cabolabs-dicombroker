@@ -26,7 +26,7 @@
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			  crossorigin="anonymous"></script>
-		
+
       <!-- Latest compiled and minified JavaScript -->
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	</head>
@@ -51,11 +51,16 @@
 		            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
 		               <li><g:link controller='log' action='list'>log</g:link></li>
 		            </sec:ifAnyGranted>
+                <%--
 		            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
 		               <li><g:link controller='user'>security</g:link></li>
 		            </sec:ifAnyGranted>
 		            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
 		               <li><g:link controller='destinationConfig' action='list'>destinations</g:link></li>
+		            </sec:ifAnyGranted>
+                --%>
+                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_GODLIKE">
+		               <li><g:link controller='aeRegistry' action='list'>origins</g:link></li>
 		            </sec:ifAnyGranted>
 		            <sec:ifAnyGranted roles="ROLE_DOCTOR,ROLE_GODLIKE">
 		               <li><g:link controller='StudySearchResult'>search</g:link></li>

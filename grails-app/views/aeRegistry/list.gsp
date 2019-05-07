@@ -1,36 +1,17 @@
 <%@ page import="aei.*" %>
 <html>
   <head>
-    <meta name="layout" content="hctrauma-modal" />
+    <meta name="layout" content="main" />
     <title><g:message code="aeRegistry.list.title" /></title>
-    
     <style>
-    td {
-      font-size: 11px;
-    }
-    
-    <%--
-      td, th {
-        padding: 5px;
-      }
-      th {
-        background-color: f0f0ff;
-      }
-      .odd {
-        background-color: #eeeeee;
-      }
-      .even {
-        background-color: #dfdfdf;
-      }
-    --%>
-    
+
     </style>
   </head>
-  <body>
+  <body class="body">
     <h1><g:message code="aeRegistry.list.title" /></h1>
-    
+
     <div class="list">
-      <table>
+      <table class="table table-bordered table-hover">
         <thead>
           <tr>
             <th><g:message code="aeRegistry.list.label.localAE" /></th>
@@ -60,20 +41,21 @@
               <td>${reg.badConnectionCount}</td>
               <td>${reg.description?.encodeAsHTML()}</td>
               <td>
+                <g:link class="btn btn-default" action="edit" id="${reg.id}">edit</g:link>
                 <%-- NO QUIERO MOSTRAR ACCION SHOW PORQUE ESTA SCAFFOLDEADA,
                      igual toda la info se muestra en el listado.
-                
+
                 [<g:link class="button" controller="aeRegistry" action="show" id="${reg.id}">
                   <g:message code="aeRegistry.action.show" />
                 </g:link>]
-                
+
                 --%>
-                
+
                 <%-- TESTS
                 [<g:link class="button" controller="aeRegistry" action="qr" id="${reg.id}">
                   <g:message code="aeRegistry.action.qr" />
                 </g:link>]
-                
+
                 <g:wadoUrl studyUid="ssss" seriesUid="uuuu" objectUid="oooo" reg="${reg}">
                   Imagen
                 </g:wadoUrl>
@@ -82,7 +64,7 @@
             </tr>
           </g:each>
         </tbody>
-      </table> 
+      </table>
     </div>
 
   </body>
