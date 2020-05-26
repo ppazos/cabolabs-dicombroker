@@ -32,16 +32,16 @@ class BootStrap {
 
     /* ============================================================================== */
     EmailDestinationConfig emailDest1 = new EmailDestinationConfig(
-                                               "name"      : "Sebastian Sierra",
-                                               "sended_to" : "sebastian@tarmacit.com",
+                                               "name"      : "Pablo Pazos",
+                                               "sended_to" : "pablo.pazos@cabolabs.com",
                                                "subject"   : "test",
                                                "body"      : "test body"
                                          )
     if (!emailDest1.save()) println "EmailDest: " + emailDest1.errors
 
     EmailDestinationConfig emailDest2 = new EmailDestinationConfig(
-                                               "name"      : "Sebastian Sierra 2",
-                                               "sended_to" : "sebastiansier@gmail.com",
+                                               "name"      : "Santiago Cammi",
+                                               "sended_to" : "scammi@gmail.com",
                                                "subject"   : "test",
                                                "body"      : "test body"
                                          )
@@ -77,7 +77,7 @@ class BootStrap {
     AeRegistry pacs2 = new AeRegistry(
         "remoteAETitle":"DCM4CHEE",
         "remoteDomain": "remote.dcm4chee", // put this in your hosts file if you dont have a domain
-        "remoteIP": "192.168.1.106",
+        "remoteIP": "192.168.1.105",
         "remotePort": 11112,
         "remoteWADOPort":8080,
         "hl7ServicePort": 2575,
