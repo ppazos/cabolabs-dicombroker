@@ -9,6 +9,7 @@ grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 grails.plugin.springsecurity.interceptUrlMap = [
  '/login/index': ['permitAll'],
  '/login/auth': ['permitAll'],
+ '/logout/**': ['permitAll'],
 
  '/dashboard/**':         ['ROLE_GODLIKE','ROLE_ADMIN'],
 
@@ -20,8 +21,8 @@ grails.plugin.springsecurity.interceptUrlMap = [
  '/registrationCode/**':  ['ROLE_GODLIKE','ROLE_ADMIN'],
  '/securityInfo/**':      ['ROLE_GODLIKE','ROLE_ADMIN'],
 
- '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR'],
- '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR'],
+ '/aeRegistry/**':        ['ROLE_GODLIKE','ROLE_DOCTOR','ROLE_ADMIN'],
+ '/studySearchResult/**': ['ROLE_GODLIKE','ROLE_DOCTOR','ROLE_ADMIN'],
  '/destinationConfig/**': ['ROLE_GODLIKE','ROLE_ADMIN'],
  '/log/**':               ['ROLE_GODLIKE','ROLE_ADMIN']
 ]

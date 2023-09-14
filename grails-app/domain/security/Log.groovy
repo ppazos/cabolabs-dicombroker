@@ -10,7 +10,7 @@ class Log {
       user lazy: false
     }
     static constraints = {
-      action inList: ['login', 'logout', 'search', 'send']
+      //action inList: ['login', 'logout', 'search', 'send']
       user nullable: false
     }
 
